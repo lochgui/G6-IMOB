@@ -90,8 +90,6 @@ td { padding:11px 14px; vertical-align:middle; }
 .btn-next:hover   { background:var(--green); color:#fff; transform:scale(1.1); }
 .btn-delete:hover { background:var(--red);   color:#fff; transform:scale(1.1); }
 .btn-prev:hover   { background:var(--sky);   color:#fff; transform:scale(1.1); }
-.btn-icon::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; }
-.btn-icon:hover::after { opacity:1; }
 
 .bancos-grid { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
 .banco-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:3px 5px; border-radius:6px; border:1.5px solid transparent; cursor:pointer; background:var(--surface2); transition:all .18s; opacity:.35; filter:grayscale(1); min-width:36px; }
@@ -100,45 +98,29 @@ td { padding:11px 14px; vertical-align:middle; }
 .banco-btn .banco-logo { width:22px; height:22px; border-radius:4px; display:grid; place-items:center; overflow:hidden; background:#fff; }
 .banco-btn .banco-logo img { width:100%; height:100%; object-fit:contain; }
 .banco-btn .banco-nome { font-size:8px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; }
-.banco-btn.ativo .banco-nome { color:var(--text); }
-.banco-btn[data-banco="Bradesco"].ativo { border-color:#cc092f; background:rgba(204,9,47,.1); }
-.banco-btn[data-banco="Itaú"].ativo { border-color:#ec7000; background:rgba(236,112,0,.1); }
-.banco-btn[data-banco="Santander"].ativo { border-color:#ec0000; background:rgba(236,0,0,.1); }
-.banco-btn[data-banco="Inter"].ativo { border-color:#ff7a00; background:rgba(255,122,0,.1); }
-.banco-btn[data-banco="Caixa"].ativo { border-color:#005b9e; background:rgba(0,91,158,.1); }
 
 .registro-box { background:var(--bg); border:1px solid var(--border); padding:14px 18px; border-radius:10px; text-align:left; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
 .registro-box b { color:var(--sky); font-size:13px; }
 .registro-box select { padding:7px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; }
-.registro-credenciais { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.registro-credenciais { display:flex; gap:15px; align-items:flex-start; flex-wrap:wrap; }
 .cred-field { display:flex; flex-direction:column; gap:4px; }
 .cred-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
 .cred-wrap { display:flex; align-items:center; gap:4px; }
 .cred-input { padding:6px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; width:140px; transition:border-color .2s; }
 .cred-input:focus { border-color:var(--sky); }
-.cred-copy { width:28px; height:28px; border:1px solid var(--border); border-radius:7px; background:var(--surface2); color:var(--text); cursor:pointer; font-size:13px; display:grid; place-items:center; transition:all .15s; position:relative; }
+.cred-copy { width:28px; height:28px; border:1px solid var(--border); border-radius:7px; background:var(--surface2); color:var(--text); cursor:pointer; font-size:13px; display:grid; place-items:center; transition:all .15s; }
 .cred-copy:hover { border-color:var(--sky); background:rgba(56,189,248,.1); transform:scale(1.1); }
-.cred-copy::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; }
-.cred-copy:hover::after { opacity:1; }
-.btn-registro-link { padding:7px 14px; background:rgba(56,189,248,.15); color:var(--sky); border:1px solid rgba(56,189,248,.3); border-radius:7px; font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; text-decoration:none; transition:background .2s; display:inline-flex; align-items:center; gap:6px; }
-.btn-registro-link:hover { background:rgba(56,189,248,.25); }
 
 .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:100; place-items:center; }
 .modal-overlay.open { display:grid; }
-.modal { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px 32px; width:360px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.5); animation:pop .15s ease; }
-@keyframes pop { from{transform:scale(.95);opacity:0} to{transform:scale(1);opacity:1} }
-.modal h3 { font-size:17px; margin-bottom:8px; }
-.modal p  { color:var(--muted); font-size:14px; margin-bottom:24px; }
-.modal-btns { display:flex; gap:10px; justify-content:center; }
-.modal-btns button { padding:9px 24px; border-radius:8px; border:none; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:opacity .2s; }
-.modal-btns button:hover { opacity:.85; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px 32px; width:360px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+.modal-btns { display:flex; gap:10px; justify-content:center; margin-top:20px; }
+.modal-btns button { padding:9px 24px; border-radius:8px; border:none; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; }
 .btn-cancel  { background:var(--surface2); color:var(--text); }
 .btn-confirm { background:var(--red); color:#fff; }
 
 .caixa-info { background:rgba(0,91,158,.1); border:1px solid rgba(77,166,255,.3); border-radius:10px; padding:12px 18px; margin-bottom:20px; font-size:13px; color:#4da6ff; display:flex; align-items:center; gap:8px; }
 .empty { padding:48px 20px; text-align:center; color:var(--muted); }
-.empty .empty-icon { font-size:36px; margin-bottom:12px; }
-.empty p { font-size:14px; }
 </style>
 </head>
 <body>
@@ -166,7 +148,7 @@ td { padding:11px 14px; vertical-align:middle; }
   </svg>
   <div id="status-bar" style="display:none;margin-left:auto;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:600;"></div>
   <div style="margin-left:auto;position:relative;">
-    <button id="btn-lupa" onclick="toggleBusca()" style="width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--sky)';this.style.color='var(--sky)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">🔍</button>
+    <button id="btn-lupa" onclick="toggleBusca()" style="width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:all .2s;">🔍</button>
     <div id="busca-box" style="display:none;position:absolute;right:0;top:44px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;width:280px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:50;">
       <input id="busca-input" type="text" placeholder="Buscar cliente..." oninput="filtrarBusca(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none;">
       <div id="busca-resultados" style="margin-top:8px;max-height:200px;overflow-y:auto;"></div>
@@ -192,7 +174,7 @@ td { padding:11px 14px; vertical-align:middle; }
     <div class="form-grid">
       <label>Nome<input id="nome" placeholder="Nome completo"></label>
       <label>Parceiro<input id="parceiro" placeholder="Parceiro"></label>
-      <label>Retorno"><select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
+      <label>Retorno<select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
       <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
       <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
       <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
@@ -200,7 +182,7 @@ td { padding:11px 14px; vertical-align:middle; }
   </div>
   <div class="table-box">
     <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos Aprovados</th><th>Ações</th></tr></thead>
+      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
       <tbody id="tabela"></tbody>
     </table>
   </div>
@@ -218,7 +200,7 @@ td { padding:11px 14px; vertical-align:middle; }
   <div class="pipeline" id="cx-pipeline"></div>
   <div class="table-box">
     <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos Aprovados</th><th>Ações</th></tr></thead>
+      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
       <tbody id="cx-tabela"></tbody>
     </table>
   </div>
@@ -230,6 +212,7 @@ td { padding:11px 14px; vertical-align:middle; }
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
   authDomain: "g6-imob-5f6d9.firebaseapp.com",
@@ -239,6 +222,7 @@ const firebaseConfig = {
   messagingSenderId: "553843254567",
   appId: "1:553843254567:web:a23b85b852fab7ec297502"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const clientesRef = ref(db, "clientes");
@@ -277,7 +261,6 @@ function salvar() {
   set(clientesRef, obj).then(()=>setStatus("✓ Salvo","ok")).catch(()=>setStatus("⚠ Erro ao salvar","err"));
 }
 
-// ATUALIZAÇÃO: Links dos cartórios 1 a 5
 function obterLinkRegistro(r){
   const links = {
     "1": "https://1riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
@@ -292,48 +275,22 @@ function obterLinkRegistro(r){
 function adicionarCliente(){
   const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
   if(!n.value.trim()){ n.focus(); return; }
-  clientes.push({ nome:n.value.trim(), parceiro:p.value.trim(), retorno:r.value, valor:v.value.trim(), valorImovel:vi.value.trim(), status:"", bancos:[], etapa:0, registro:"", login:"", senha:"", proposta:"", registroSalvo:false });
+  clientes.push({ nome:n.value.trim(), parceiro:p.value.trim(), retorno:r.value, valor:v.value.trim(), valorImovel:vi.value.trim(), status:"", bancos:[], etapa:0, registro:"", login:"", senha:"", proposta:"", registroSalvo:false, statusData:"" });
   n.value=""; p.value=""; v.value=""; vi.value=""; r.value="aprovado";
   salvar();
 }
 
-function pedirExclusao(i){ indexParaExcluir=i; document.getElementById("modalOverlay").classList.add("open"); }
-function fecharModal(){ indexParaExcluir=null; document.getElementById("modalOverlay").classList.remove("open"); }
-function confirmarExclusao(){ if(indexParaExcluir!==null){ clientes.splice(indexParaExcluir,1); salvar(); } fecharModal(); }
-function avancar(i){ if(clientes[i].etapa<etapas.length-1){ clientes[i].etapa++; salvar(); }}
-function voltar(i){ if(clientes[i].etapa>0){ clientes[i].etapa--; salvar(); }}
-function alterarRetorno(i,v){ clientes[i].retorno=v; salvar(); }
-function alterarStatus(i,v){ clientes[i].status=v; clientes[i].statusData = v ? new Date().toLocaleDateString('pt-BR') : ''; salvar(); }
-function toggleBanco(i,banco){ const idx=clientes[i].bancos.indexOf(banco); if(idx===-1) clientes[i].bancos.push(banco); else clientes[i].bancos.splice(idx,1); salvar(); }
-function alterarCampoRegistro(i,campo,v){ clientes[i][campo]=v; salvar(); }
-function toggleRegistro(i){ clientes[i].registroAberto = !clientes[i].registroAberto; render(); }
-function filtrarEtapa(i){ filtroEtapa=i; render(); }
-function limparFiltro(){ filtroEtapa=null; render(); }
-function cxFiltrarEtapa(i){ cxFiltroEtapa=i; renderCaixa(); }
-function cxLimparFiltro(){ cxFiltroEtapa=null; renderCaixa(); }
-
-function copiar(texto, btn) {
-  navigator.clipboard.writeText(texto).then(() => {
-    const orig = btn.textContent;
-    btn.textContent='✅'; btn.style.color='var(--green)';
-    setTimeout(()=>{ btn.textContent=orig; btn.style.color=''; }, 1500);
-  });
-}
-
-const bancosLogos = {
-  "Bradesco": "https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=64",
-  "Itaú":     "https://www.google.com/s2/favicons?domain=itau.com.br&sz=64",
-  "Santander":"https://www.google.com/s2/favicons?domain=santander.com.br&sz=64",
-  "Inter":    "https://www.google.com/s2/favicons?domain=inter.co&sz=64",
-  "Caixa":    "https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64"
-};
-
-function renderBancos(i, bancosAtivos) {
-  return todosBancos.map(b=>`
-    <button class="banco-btn ${bancosAtivos.includes(b)?'ativo':''}" data-banco="${b}" onclick="window._g6.toggleBanco(${i},'${b}')">
-      <span class="banco-logo"><img src="${bancosLogos[b]}" alt="${b}" onerror="this.parentElement.innerHTML='<span style=font-size:9px;font-weight:800;color:#fff>${b.substring(0,2)}</span>';this.parentElement.style.background='#334155'"></span>
-      <span class="banco-nome">${b}</span>
-    </button>`).join('');
+function alterarStatus(i, v) {
+  clientes[i].status = v;
+  if (v) {
+    const agora = new Date();
+    const dataFormatada = agora.toLocaleDateString('pt-BR');
+    const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    clientes[i].statusData = `${dataFormatada} às ${horaFormatada}`;
+  } else {
+    clientes[i].statusData = '';
+  }
+  salvar();
 }
 
 function renderLinha(c, i, tbody) {
@@ -359,15 +316,15 @@ function renderLinha(c, i, tbody) {
       ${etapas[c.etapa]==="Registro" ? `<span style="font-size:11px;color:var(--muted);font-style:italic;">ver registro</span>` : `<input class="table-input" value="${c.status||''}" placeholder="—" onchange="window._g6.alterarStatus(${i},this.value)">${c.statusData ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">${c.statusData}</div>` : ''}`}
     </td>
     <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
-    <td><div class="bancos-grid">${renderBancos(i, bancosAtivos)}</div></td>
-    <td><div class="actions"><button class="btn-icon btn-prev" data-tip="Voltar" onclick="window._g6.voltar(${i})">←</button><button class="btn-icon btn-next" data-tip="Avançar" onclick="window._g6.avancar(${i})">→</button><button class="btn-icon btn-delete" data-tip="Excluir" onclick="window._g6.pedirExclusao(${i})">✕</button></div></td>`;
+    <td><div class="bancos-grid">${renderBancosHTML(i, bancosAtivos)}</div></td>
+    <td><div class="actions"><button class="btn-icon btn-prev" onclick="window._g6.voltar(${i})">←</button><button class="btn-icon btn-next" onclick="window._g6.avancar(${i})">→</button><button class="btn-icon btn-delete" onclick="window._g6.pedirExclusao(${i})">✕</button></div></td>`;
   tbody.appendChild(row);
 
   if(etapas[c.etapa]==="Registro" && c.registroAberto){
     const regRow = document.createElement("tr");
     regRow.innerHTML = `<td colspan="9" style="padding:2px 14px 12px;">
       <div class="registro-box">
-        <b>📄 Dados do Registro</b>
+        <b>📄 Registro</b>
         <select onchange="window._g6.alterarCampoRegistro(${i},'registro',this.value)">
           <option value="">Cartório</option>
           <option value="1" ${c.registro=="1"?"selected":""}>1º RI</option>
@@ -376,12 +333,17 @@ function renderLinha(c, i, tbody) {
           <option value="4" ${c.registro=="4"?"selected":""}>4º RI</option>
           <option value="5" ${c.registro=="5"?"selected":""}>5º RI</option>
         </select>
-        ${c.registro?`<a class="btn-registro-link" href="${obterLinkRegistro(c.registro)}" target="_blank">🔗 Acessar</a>`:''}
+        ${c.registro?`<a class="btn-registro-link" href="${obterLinkRegistro(c.registro)}" target="_blank" style="padding:7px 12px; background:rgba(56,189,248,.1); color:var(--sky); border-radius:8px; font-size:12px; text-decoration:none;">🔗 Link</a>`:''}
         <div class="registro-credenciais">
-          <div class="cred-field"><span class="cred-label">Login</span><div class="cred-wrap"><input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampoRegistro(${i},'login',this.value)">${c.login?`<button class="cred-copy" onclick="window._g6.copiar('${c.login.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Senha</span><div class="cred-wrap"><input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampoRegistro(${i},'senha',this.value)">${c.senha?`<button class="cred-copy" onclick="window._g6.copiar('${c.senha.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Proposta</span><div class="cred-wrap"><input class="cred-input" value="${c.proposta||''}" onchange="window._g6.alterarCampoRegistro(${i},'proposta',this.value)">${c.proposta?`<button class="cred-copy" onclick="window._g6.copiar('${c.proposta.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Status</span><div class="cred-wrap"><input class="cred-input" style="width:280px" value="${c.status||''}" onchange="window._g6.alterarStatus(${i},this.value)"></div></div>
+          <div class="cred-field"><span class="cred-label">Login</span><div class="cred-wrap"><input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampoRegistro(${i},'login',this.value)"></div></div>
+          <div class="cred-field"><span class="cred-label">Senha</span><div class="cred-wrap"><input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampoRegistro(${i},'senha',this.value)"></div></div>
+          <div class="cred-field">
+            <span class="cred-label">Status do Registro</span>
+            <div class="cred-wrap" style="flex-direction: column; align-items: flex-start;">
+              <input class="cred-input" style="width:320px" value="${c.status||''}" onchange="window._g6.alterarStatus(${i},this.value)">
+              ${c.statusData ? `<div style="font-size:10px; color:var(--muted); margin-top:4px;">🕒 Atualizado em: ${c.statusData}</div>` : ''}
+            </div>
+          </div>
         </div>
       </div>
     </td>`;
@@ -389,12 +351,42 @@ function renderLinha(c, i, tbody) {
   }
 }
 
+function renderBancosHTML(i, ativos) {
+  const logos = {
+    "Bradesco": "https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=64",
+    "Itaú":     "https://www.google.com/s2/favicons?domain=itau.com.br&sz=64",
+    "Santander":"https://www.google.com/s2/favicons?domain=santander.com.br&sz=64",
+    "Inter":    "https://www.google.com/s2/favicons?domain=inter.co&sz=64",
+    "Caixa":    "https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64"
+  };
+  return todosBancos.map(b=>`
+    <button class="banco-btn ${ativos.includes(b)?'ativo':''}" onclick="window._g6.toggleBanco(${i},'${b}')">
+      <span class="banco-logo"><img src="${logos[b]}" alt="${b}"></span>
+      <span class="banco-nome">${b}</span>
+    </button>`).join('');
+}
+
+// Funções Globais expostas para o HTML
+window._g6 = {
+  adicionarCliente,
+  pedirExclusao: (i) => { indexParaExcluir=i; document.getElementById("modalOverlay").classList.add("open"); },
+  fecharModal: () => { indexParaExcluir=null; document.getElementById("modalOverlay").classList.remove("open"); },
+  confirmarExclusao: () => { if(indexParaExcluir!==null){ clientes.splice(indexParaExcluir,1); salvar(); } window._g6.fecharModal(); },
+  avancar: (i) => { if(clientes[i].etapa<etapas.length-1){ clientes[i].etapa++; salvar(); }},
+  voltar: (i) => { if(clientes[i].etapa>0){ clientes[i].etapa--; salvar(); }},
+  alterarRetorno: (i,v) => { clientes[i].retorno=v; salvar(); },
+  alterarStatus,
+  toggleBanco: (i,b) => { const idx=clientes[i].bancos.indexOf(b); if(idx===-1) clientes[i].bancos.push(b); else clientes[i].bancos.splice(idx,1); salvar(); },
+  alterarCampoRegistro: (i,f,v) => { clientes[i][f]=v; salvar(); },
+  toggleRegistro: (i) => { clientes[i].registroAberto = !clientes[i].registroAberto; render(); },
+  copiar: (t, btn) => { navigator.clipboard.writeText(t); btn.textContent='✅'; setTimeout(()=>btn.textContent='📋',1500); }
+};
+
 function render(){
   const tbody = document.getElementById("tabela");
   tbody.innerHTML = "";
   let lista = filtroEtapa!==null ? clientes.filter(c=>c.etapa===filtroEtapa) : clientes;
-  if(!lista.length) tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>Nenhum cliente.</p></div></td></tr>';
-  else lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
+  lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
   atualizarDashboard(); atualizarPipeline();
 }
 
@@ -407,81 +399,36 @@ function atualizarDashboard(){
 function atualizarPipeline(){
   const pipe=document.getElementById("pipeline"); pipe.innerHTML="";
   etapas.forEach((e,i)=>{
-    const total=clientes.filter(c=>c.etapa===i).length;
-    const d=document.createElement("div"); d.className=`step${filtroEtapa===i?' active':''}`; d.innerHTML=`<strong>${total}</strong>${e}`; d.onclick=()=>filtrarEtapa(i); pipe.appendChild(d);
+    const t=clientes.filter(c=>c.etapa===i).length;
+    const d=document.createElement("div"); d.className=`step${filtroEtapa===i?' active':''}`; d.innerHTML=`<strong>${t}</strong>${e}`; d.onclick=()=> { filtroEtapa=i; render(); }; pipe.appendChild(d);
   });
-  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Ver Todos"; all.onclick=limparFiltro; pipe.appendChild(all);
+  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Todos"; all.onclick=()=>{ filtroEtapa=null; render(); }; pipe.appendChild(all);
 }
 
 function renderCaixa(){
   const tbody = document.getElementById("cx-tabela"); tbody.innerHTML = "";
-  const cxClientes = clientes.filter(c => Array.isArray(c.bancos) && c.bancos.includes("Caixa"));
-  let lista = cxFiltroEtapa!==null ? cxClientes.filter(c=>c.etapa===cxFiltroEtapa) : cxClientes;
-  if(!lista.length) tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>Nenhum cliente Caixa.</p></div></td></tr>';
-  else lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-
-  document.getElementById("cx-totalClientes").innerText=cxClientes.length;
-  document.getElementById("cx-totalAprovados").innerText=cxClientes.filter(c=>c.retorno==="aprovado").length;
-  document.getElementById("cx-totalContratacao").innerText=cxClientes.filter(c=>etapas[c.etapa]==="Contratação").length;
-
-  const pipe=document.getElementById("cx-pipeline"); pipe.innerHTML="";
-  etapas.forEach((e,i)=>{
-    const total=cxClientes.filter(c=>c.etapa===i).length;
-    const d=document.createElement("div"); d.className=`step${cxFiltroEtapa===i?' active':''}`; d.innerHTML=`<strong>${total}</strong>${e}`; d.onclick=()=>cxFiltrarEtapa(i); pipe.appendChild(d);
-  });
-  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Ver Todos"; all.onclick=cxLimparFiltro; pipe.appendChild(all);
+  const cx = clientes.filter(c => c.bancos.includes("Caixa"));
+  let lista = cxFiltroEtapa!==null ? cx.filter(c=>c.etapa===cxFiltroEtapa) : cx;
+  lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
+  document.getElementById("cx-totalClientes").innerText=cx.length;
 }
 
-window.toggleBusca = function() {
-  const box = document.getElementById('busca-box');
-  const input = document.getElementById('busca-input');
-  const aberto = box.style.display === 'block';
-  box.style.display = aberto ? 'none' : 'block';
-  if (!aberto) { input.value=''; filtrarBusca(''); input.focus(); }
+window.toggleBusca = () => {
+  const b = document.getElementById('busca-box');
+  b.style.display = b.style.display==='block' ? 'none' : 'block';
 };
 
-window.filtrarBusca = function(termo) {
-  const res = document.getElementById('busca-resultados');
-  if (!termo.trim()) { res.innerHTML=''; return; }
-  const found = clientes.filter(c => c.nome.toLowerCase().includes(termo.toLowerCase()));
-  if (!found.length) { res.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 4px;">Nenhum cliente.</div>'; return; }
-  res.innerHTML = found.map(c => {
-    const i = clientes.indexOf(c);
-    return `<div onclick="irParaCliente(${i})" style="padding:8px 10px;border-radius:7px;cursor:pointer;font-size:13px;display:flex;flex-direction:column;gap:2px;">
-      <span style="font-weight:600;">${c.nome}</span>
-      <span style="font-size:11px;color:var(--muted);">${c.parceiro||''} · ${etapas[c.etapa]}</span>
-    </div>`;
-  }).join('');
-};
-
-window.irParaCliente = function(i) {
-  document.getElementById('busca-box').style.display='none';
-  trocarAba('geral', document.querySelectorAll('.tab-btn')[0]);
-  filtroEtapa=null; render();
-  setTimeout(()=>{
-    const linhas = document.querySelectorAll('#tabela tr');
-    for(const l of linhas){
-      if(l.textContent.includes(clientes[i].nome)){
-        l.scrollIntoView({behavior:'smooth', block:'center'});
-        l.style.background='rgba(56,189,248,.1)';
-        setTimeout(()=>l.style.background='', 2000); break;
-      }
-    }
-  }, 100);
-};
-
-function trocarAba(aba, btn) {
+window.trocarAba = (aba, btn) => {
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+aba).classList.add('active');
   btn.classList.add('active');
-}
-window.trocarAba = trocarAba;
+};
 
-window._g6 = { adicionarCliente, pedirExclusao, fecharModal, confirmarExclusao, avancar, voltar, alterarRetorno, alterarStatus, toggleBanco, alterarCampoRegistro, toggleRegistro, copiar };
 document.getElementById("btn-add-geral").onclick = adicionarCliente;
-document.getElementById("btn-cancel").onclick = fecharModal;
-document.getElementById("btn-confirm").onclick = confirmarExclusao;
+document.getElementById("btn-cancel").onclick = window._g6.fecharModal;
+document.getElementById("btn-confirm").onclick = window._g6.confirmarExclusao;
+
 </script>
 </body>
 </html>
