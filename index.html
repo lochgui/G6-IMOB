@@ -1,293 +1,296 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>G6 Imobiliário</title>
-<link href="https://fonts.googleapis.com/css?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
- *, *::before, ::after { box-sizing: border-box; margin:0; padding:0; }
- :root {
-  --bg:#0b1120; --surface: #131c2e; --border:#1e3050;
-  --text:#e2e8f0; --muted: #64748b;
-  --yellow:#facc15; --red: #ef4444;
-  --surface2:#1a2640;
-  --sky: #38bdf8; --green:#22c55e;
-  --radius:12px;
- }
- body { margin:0; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height:100vh; }
- header { display: flex; align-items:center; gap:14px; padding: 24px 32px 0; margin-bottom:16px; }
- 
- .tabs { display: flex; gap:8px; padding:0 32px; margin-bottom:20px; }
- .tab-btn { padding: 9px 22px; border-radius: 10px; border:1px solid var(--border); background: var(--surface); color:var(--muted); font-family: inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
- .tab-btn.active { background:rgba(56,189,248,0.1); border-color:var(--sky); color:var(--sky); }
- .tab-panel { display:none; }
- .tab-panel.active { display:block; }
- 
- .container { padding:0 32px 40px; }
- .cards { display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin-bottom:24px; }
- .card { background: var(--surface); border:1px solid var(--border); padding:20px 22px; border-radius: var(--radius); display: flex; align-items:center; gap:16px; }
- .card-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
- .card-value { font-size: 28px; font-weight:700; line-height:1; }
+    <meta charset="UTF-8">
+    <title>G6 Imobiliário</title>
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, ::after { box-sizing: border-box; margin:0; padding:0; }
+        :root {
+            --bg:#0b1120; --surface: #131c2e; --border:#1e3050;
+            --text:#e2e8f0; --muted: #64748b;
+            --yellow:#facc15; --red: #ef4444;
+            --surface2:#1a2640;
+            --sky: #38bdf8; --green:#22c55e;
+            --radius:12px;
+        }
+        body { margin:0; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height:100vh; }
+        header { display: flex; align-items:center; gap:14px; padding: 24px 32px 0; margin-bottom:16px; }
+        
+        /* Estilos de Abas */
+        .tabs { display: flex; gap:8px; padding:0 32px; margin-bottom:20px; }
+        .tab-btn { padding: 9px 22px; border-radius: 10px; border:1px solid var(--border); background: var(--surface); color:var(--muted); font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
+        .tab-btn.active { background:rgba(56,189,248,0.1); border-color:var(--sky); color:var(--sky); }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; }
+        
+        .container { padding:0 32px 40px; }
+        .cards { display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin-bottom:24px; }
+        .card { background: var(--surface); border:1px solid var(--border); padding:20px 22px; border-radius: var(--radius); display: flex; align-items:center; gap:16px; }
+        .card-label { font-size:12px; color:var(--muted); text-transform:uppercase; }
+        .card-value { font-size: 28px; font-weight:700; line-height:1; }
+        .card-value.blue { color:var(--sky); }
+        .card-value.green { color:var(--green); }
+        .card-value.amber { color:var(--yellow); }
 
- .pipeline { display:grid; grid-template-columns: repeat(9,1fr); gap:8px; margin-bottom:24px; }
- .step { background: var(--surface); border:1px solid var(--border); padding: 10px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .2s; font-size:12px; color:var(--muted); }
- .step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
- .step strong { display:block; font-size:20px; font-weight:700; color:var(--text); }
- .step.clear { background: var(--surface2); color:var(--muted); font-size:11px; display:grid; place-items:center; }
+        .pipeline { display:grid; grid-template-columns: repeat(9,1fr); gap:8px; margin-bottom:24px; }
+        .step { background: var(--surface); border:1px solid var(--border); padding: 10px 8px; border-radius:10px; text-align:center; cursor:pointer; font-size:12px; color:var(--muted); }
+        .step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
+        .step strong { display:block; font-size:20px; font-weight:700; color:var(--text); }
+        .step.clear { background: var(--surface2); }
 
- .form-box { background: var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius: var(--radius); margin-bottom:20px; }
- .form-grid { display:grid; grid-template-columns:2fr 2fr 1.5fr 1.5fr 1.5fr auto; gap:10px; align-items:end; }
- .form-grid input, .form-grid select { padding: 9px 12px; border-radius: 8px; border:1px solid var(--border); background: var(--bg); color:var(--text); font-family: inherit; font-size:13px; outline: none; width:100%; }
- .btn-add { padding: 10px 20px; background: var(--sky); border:none; border-radius: 8px; color: #0b1120; font-weight:700; cursor:pointer; height:38px; }
+        .form-box { background: var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius: var(--radius); margin-bottom:20px; }
+        .form-grid { display:grid; grid-template-columns:2fr 2fr 1.5fr 1.5fr 1.5fr auto; gap:10px; align-items:end; }
+        .form-grid input, .form-grid select { padding: 9px 12px; border-radius: 8px; border:1px solid var(--border); background: var(--bg); color:var(--text); font-size:13px; outline: none; width:100%; }
+        .btn-add { padding: 10px 20px; background: var(--sky); border:none; border-radius: 8px; font-weight:700; cursor:pointer; height:38px; color: #0b1120; }
 
- .table-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
- table { width: 100%; border-collapse:collapse; text-align:center; font-size: 13.5px; }
- thead { background: var(--surface2); }
- th { padding: 13px 14px; color:var(--muted); font-size:11px; font-weight: 600; text-transform:uppercase; border-bottom:1px solid var(--border); }
- td { padding: 11px 14px; border-bottom:1px solid var(--border); }
+        .table-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+        table { width: 100%; border-collapse:collapse; text-align:center; font-size: 13.5px; }
+        th { padding: 13px 14px; color:var(--muted); font-size:11px; text-transform:uppercase; border-bottom:1px solid var(--border); background: var(--surface2); }
+        td { padding: 11px 14px; border-bottom:1px solid var(--border); vertical-align: middle; }
 
- /* ESTILOS DO BOTAO DE COPIAR */
- .cred-wrap { display: flex; align-items:center; gap:6px; }
- .cred-input { padding:6px 10px; border-radius: 7px; border:1px solid var(--border); background: var(--surface); color:var(--text); font-size:13px; outline: none; width:140px; }
- .cred-copy { width: 30px; height: 30px; border:1px solid var(--border); border-radius: 7px; background: var(--surface2); color: var(--text); cursor:pointer; font-size:14px; display:grid; place-items:center; transition:all .15s; }
- .cred-copy:hover { border-color:var(--sky); background:rgba(56,189,248,0.2); }
+        /* Estilos do Registro e Botão Copiar */
+        .registro-box { background: var(--bg); border:1px solid var(--border); padding: 14px 18px; border-radius: 10px; display: flex; align-items:center; gap:20px; flex-wrap:wrap; }
+        .registro-box b { color: var(--sky); font-size:13px; }
+        .cred-field { display: flex; flex-direction:column; gap:4px; text-align: left; }
+        .cred-label { font-size:10px; font-weight:600; color: var(--muted); text-transform:uppercase; }
+        .cred-wrap { display: flex; align-items:center; gap:6px; }
+        .cred-input { padding:6px 10px; border-radius: 7px; border:1px solid var(--border); background: var(--surface); color:var(--text); font-size:13px; width:150px; outline:none; }
+        
+        .cred-copy { width: 32px; height: 32px; border:1px solid var(--border); border-radius: 7px; background: var(--surface2); color: var(--text); cursor:pointer; display:grid; place-items:center; transition: 0.2s; border: none; }
+        .cred-copy:hover { border: 1px solid var(--sky); background:rgba(56,189,248,0.2); }
 
- .registro-box { background: var(--bg); border:1px solid var(--border); padding: 14px 18px; border-radius: 10px; display: flex; align-items:center; gap:14px; flex-wrap:wrap; margin: 10px; }
- .badge-etapa { display:inline-block; padding:3px 10px; border-radius: 20px; font-size:11px; font-weight: 600; background: var(--surface2); color:var(--muted); border:1px solid var(--border); }
- .actions { display: flex; gap:6px; justify-content:center; }
- .btn-icon { width:32px; height: 32px; border:none; border-radius:8px; cursor:pointer; display:grid; place-items:center; }
- .btn-next { background:rgba(34,197,94,.15); color:var(--green); }
- .btn-prev { background:rgba(56,189,248,.15); color:var(--sky); }
- .btn-delete { background:rgba(239,68,68,.15); color:var(--red); }
+        .badge-etapa { padding:3px 10px; border-radius: 20px; font-size:11px; font-weight: 600; background: var(--surface2); color:var(--muted); border:1px solid var(--border); }
+        .actions { display: flex; gap:6px; justify-content:center; }
+        .btn-icon { width:32px; height: 32px; border:none; border-radius:8px; cursor:pointer; display:grid; place-items:center; }
+        .btn-next { background:rgba(34,197,94,.15); color:var(--green); }
+        .btn-prev { background:rgba(56,189,248,.15); color:var(--sky); }
+        .btn-delete { background:rgba(239,68,68,.15); color:var(--red); }
 
- .bancos-grid { display: flex; gap: 5px; flex-wrap:wrap; justify-content:center; }
- .banco-btn { display: flex; flex-direction:column; align-items:center; gap:2px; padding: 3px 5px; border-radius: 6px; border:1.5px solid transparent; cursor:pointer; background: var(--surface2); transition:all .18s; opacity:.35; filter: grayscale(1); min-width: 36px; }
- .banco-btn.ativo { opacity:1; filter: grayscale(0); }
- .banco-nome { font-size: 8px; font-weight: 600; color:var(--muted); text-transform:uppercase; }
-</style>
+        /* Bancos */
+        .bancos-grid { display: flex; gap: 5px; flex-wrap:wrap; justify-content:center; }
+        .banco-btn { display: flex; flex-direction:column; align-items:center; gap:2px; padding: 3px 5px; border-radius: 6px; border:1.5px solid transparent; cursor:pointer; background: var(--surface2); opacity:.35; filter: grayscale(1); min-width: 36px; }
+        .banco-btn.ativo { opacity:1; filter: grayscale(0); border-color: var(--sky); }
+        .banco-logo { width: 22px; height: 22px; background:#fff; border-radius:4px; overflow:hidden; }
+        .banco-logo img { width:100%; height:100%; object-fit: contain; }
+        .banco-nome { font-size: 8px; color: var(--muted); text-transform: uppercase; }
+    </style>
 </head>
 <body>
+    <header>
+        <svg width="340" height="75" viewBox="0 0 340 75" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a6fc4"/><stop offset="100%" stop-color="#0d4a8a"/></linearGradient>
+                <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8890a"/><stop offset="100%" stop-color="#c46a00"/></linearGradient>
+            </defs>
+            <g transform="translate(0,8)">
+                <rect x="0" y="22" width="48" height="36" rx="3" fill="url(#lg1)"/>
+                <polygon points="24,2 54,24 -6,24" fill="url(#lg2)"/>
+                <rect x="18" y="34" width="12" height="24" rx="2" fill="white" opacity="0.9"/>
+                <text x="62" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4">G6</text>
+                <line x1="112" y1="18" x2="112" y2="54" stroke="#c8d8ea" stroke-width="1.2"/>
+                <text x="122" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="2">IMOBILIÁRIO</text>
+            </g>
+        </svg>
+    </header>
 
-<header>
- <svg width="340" height="75" viewBox="0 0 340 75" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-   <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a6fc4"/><stop offset="100%" stop-color="#0d4a8a"/></linearGradient>
-   <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8890a"/><stop offset="100%" stop-color="#c46a00"/></linearGradient>
-  </defs>
-  <g transform="translate(0,8)">
-   <rect x="0" y="22" width="48" height="36" rx="3" fill="url(#lg1)"/>
-   <polygon points="24,2 54,24 -6,24" fill="url(#lg2)"/>
-   <rect x="18" y="34" width="12" height="24" rx="2" fill="white" opacity="0.9"/>
-   <text x="62" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="-1">G6</text>
-   <line x1="112" y1="18" x2="112" y2="54" stroke="#c8d8ea" stroke-width="1.2"/>
-   <text x="122" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="2">IMOBILIÁRIO</text>
-  </g>
- </svg>
- <div style="margin-left: auto; position: relative;">
-  <button id="btn-lupa" onclick="window.toggleBusca()" style="width: 44px;height: 44px;border-radius:10px;border:1px solid var(--border); background: var(--surface);color:var(--muted); cursor:pointer;font-size:20px;display:grid;place-items:center;">Q</button>
-  <div id="busca-box" style="display:none;position:absolute;right:0;top: 44px;background:var(--surface); border:1px solid var(--border); border-radius:10px;padding: 10px; width: 280px; z-index:50;">
-   <input id="busca-input" type="text" placeholder="Buscar cliente..." oninput="window.filtrarBusca(this.value)" style="width: 100%; padding: 9px 12px; border-radius:8px; border:1px solid var(--border); background: var(--bg); color:var(--text); outline: none;">
-  </div>
- </div>
-</header>
-
-<div class="tabs">
- <button class="tab-btn active" onclick="trocarAba('geral', this)">Geral</button>
- <button class="tab-btn" onclick="trocarAba('caixa', this)">Caixa</button>
-</div>
-
-<div id="tab-geral" class="tab-panel active">
- <div class="container">
-  <div class="cards">
-   <div class="card"><div class="card-info"><span class="card-label">Total Clientes</span><span class="card-value blue" id="totalClientes">0</span></div></div>
-   <div class="card"><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="totalAprovados">0</span></div></div>
-   <div class="card"><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="totalContratacao">0</span></div></div>
-  </div>
-  <div class="pipeline" id="pipeline"></div>
-  <div class="form-box">
-   <div class="form-grid">
-    <label>Nome<input id="nome" placeholder="Nome"></label>
-    <label>Parceiro<input id="parceiro" placeholder="Parceiro"></label>
-    <label>Retorno<select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
-    <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
-    <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
-    <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
-   </div>
-  </div>
-  <div class="table-box">
-   <table>
-    <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>V. Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
-    <tbody id="tabela"></tbody>
-   </table>
-  </div>
- </div>
-</div>
-
-<div id="tab-caixa" class="tab-panel">
- <div class="container">
-  <div class="caixa-info">Filtro automático para clientes Caixa.</div>
-  <div class="table-box">
-   <table>
-    <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>V. Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
-    <tbody id="cx-tabela"></tbody>
-   </table>
-  </div>
- </div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay">
- <div class="modal">
-  <h3>Excluir cliente?</h3>
-  <div class="modal-btns">
-   <button onclick="window._g6.fecharModal()">Cancelar</button>
-   <button onclick="window._g6.confirmarExclusao()" style="background:var(--red); color:white; padding: 10px 20px; border:none; border-radius:8px; cursor:pointer;">Excluir</button>
-  </div>
- </div>
-</div>
-
-<script type="module">
- import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
- import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-
- const firebaseConfig = {
-  apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
-  authDomain: "g6-imob-5f6d9.firebaseapp.com",
-  databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
-  projectId: "g6-imob-5f6d9",
-  storageBucket: "g6-imob-5f6d9.firebasestorage.app",
-  messagingSenderId: "553843254567",
-  appId: "1:553843254567:web:a23b85b852fab7ec297502"
- };
-
- const app = initializeApp(firebaseConfig);
- const db = getDatabase(app);
- const clientesRef = ref(db, "clientes");
-
- const etapas = ["Atendido", "Aprovado", "Contratação", "Engenharia", "Jurídico", "Assinatura", "Registro", "Pagamento"];
- const todosBancos = ["Bradesco", "Itaú", "Santander", "Inter", "Caixa"];
- let clientes = [];
- let filtroEtapa = null;
- let indexParaExcluir = null;
- let buscaTermo = "";
-
- window._g6 = {
-  adicionar: () => {
-   const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
-   if(!n.value.trim()) return;
-   clientes.push({ nome: n.value.trim(), parceiro: p.value, retorno: r.value, valor: v.value, valorImovel: vi.value, etapa: 0, bancos: [], registro: "", login: "", senha: "", registroAberto: false, status: "" });
-   n.value=""; p.value=""; salvar();
-  },
-  fecharModal: () => document.getElementById("modalOverlay").classList.remove("open"),
-  pedirExclusao: (i) => { indexParaExcluir = i; document.getElementById("modalOverlay").classList.add("open"); },
-  confirmarExclusao: () => { if(indexParaExcluir!==null) { clientes.splice(indexParaExcluir, 1); salvar(); window._g6.fecharModal(); }},
-  avancar: (i) => { if(clientes[i].etapa < etapas.length-1) { clientes[i].etapa++; salvar(); }},
-  voltar: (i) => { if(clientes[i].etapa > 0) { clientes[i].etapa--; salvar(); }},
-  toggleBanco: (i, b) => { const idx = clientes[i].bancos.indexOf(b); if(idx===-1) clientes[i].bancos.push(b); else clientes[i].bancos.splice(idx,1); salvar(); },
-  alterarCampo: (i, f, v) => { clientes[i][f] = v; salvar(); },
-  toggleRegistro: (i) => { clientes[i].registroAberto = !clientes[i].registroAberto; render(); renderCaixa(); },
-  copiar: (texto, btn) => {
-   navigator.clipboard.writeText(texto);
-   btn.textContent = '✅';
-   setTimeout(() => { btn.textContent = '📋'; }, 1500);
-  }
- };
-
- function salvar() {
-  const obj = {}; clientes.forEach((c, i) => { obj[i] = c; });
-  set(clientesRef, obj);
- }
-
- onValue(clientesRef, (snap) => {
-  const data = snap.val();
-  clientes = data ? Object.values(data).map(c => ({...c, bancos: Array.isArray(c.bancos) ? c.bancos : []})) : [];
-  render(); renderCaixa();
- });
-
- function renderLinha(c, i, tbody) {
-  const tr = document.createElement("tr");
-  const isReg = etapas[c.etapa] === "Registro";
-  tr.innerHTML = `
-   <td style="font-weight:600">${c.nome} ${isReg ? `<br><span onclick="window._g6.toggleRegistro(${i})" style="font-size:10px; cursor:pointer; color:var(--sky)">${c.registroAberto?'recolher':'ver registro'}</span>`:''}</td>
-   <td>${c.parceiro || '-'}</td>
-   <td>${c.retorno}</td>
-   <td>${c.valor || '-'}</td>
-   <td>${c.valorImovel || '-'}</td>
-   <td><input value="${c.status||''}" onchange="window._g6.alterarCampo(${i},'status',this.value)" style="background:transparent; border:none; color:inherit; text-align:center; width:80px;"></td>
-   <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
-   <td><div class="bancos-grid">${todosBancos.map(b => `<button class="banco-btn ${c.bancos.includes(b)?'ativo':''}" onclick="window._g6.toggleBanco(${i},'${b}')"><span class="banco-nome">${b}</span></button>`).join('')}</div></td>
-   <td>
-    <div class="actions">
-     <button class="btn-icon btn-prev" onclick="window._g6.voltar(${i})">←</button>
-     <button class="btn-icon btn-next" onclick="window._g6.avancar(${i})">→</button>
-     <button class="btn-icon btn-delete" onclick="window._g6.pedirExclusao(${i})">X</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="trocarAba('geral', this)">Geral</button>
+        <button class="tab-btn" onclick="trocarAba('caixa', this)">Caixa</button>
     </div>
-   </td>
-  `;
-  tbody.appendChild(tr);
 
-  if(isReg && c.registroAberto) {
-   const rRow = document.createElement("tr");
-   rRow.innerHTML = `
-    <td colspan="9">
-     <div class="registro-box">
-      <b>Registro</b>
-      <select onchange="window._g6.alterarCampo(${i},'registro',this.value)">
-       <option value="">Cartório</option>
-       ${[1,2,3,4,5].map(n => `<option value="${n}" ${c.registro==n?'selected':''}>${n}° RI</option>`).join('')}
-      </select>
-      <div class="cred-field">
-       <span class="cred-label">Login / Protocolo</span>
-       <div class="cred-wrap">
-        <input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampo(${i},'login',this.value)">
-        <button class="cred-copy" onclick="window._g6.copiar('${c.login||''}', this)">📋</button>
-       </div>
-      </div>
-      <div class="cred-field">
-       <span class="cred-label">Senha</span>
-       <div class="cred-wrap">
-        <input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampo(${i},'senha',this.value)">
-        <button class="cred-copy" onclick="window._g6.copiar('${c.senha||''}', this)">📋</button>
-       </div>
-      </div>
-     </div>
-    </td>
-   `;
-   tbody.appendChild(rRow);
-  }
- }
+    <div id="tab-geral" class="tab-panel active">
+        <div class="container">
+            <div class="cards">
+                <div class="card"><div class="card-info"><span class="card-label">Total Clientes</span><span class="card-value blue" id="totalClientes">0</span></div></div>
+                <div class="card"><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="totalAprovados">0</span></div></div>
+                <div class="card"><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="totalContratacao">0</span></div></div>
+            </div>
+            <div class="pipeline" id="pipeline"></div>
+            <div class="form-box">
+                <div class="form-grid">
+                    <input id="nome" placeholder="Nome">
+                    <input id="parceiro" placeholder="Parceiro">
+                    <select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select>
+                    <input id="valor" placeholder="Financiamento">
+                    <input id="valorImovel" placeholder="Valor Imóvel">
+                    <button class="btn-add" onclick="window._g6.adicionar()">+ Adicionar</button>
+                </div>
+            </div>
+            <div class="table-box">
+                <table>
+                    <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
- function render() {
-  const tbody = document.getElementById("tabela"); tbody.innerHTML = "";
-  let lista = filtroEtapa !== null ? clientes.filter(c => c.etapa === filtroEtapa) : clientes;
-  if(buscaTermo) lista = lista.filter(c => c.nome.toLowerCase().includes(buscaTermo.toLowerCase()));
-  lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-  
-  document.getElementById("totalClientes").innerText = clientes.length;
-  document.getElementById("totalAprovados").innerText = clientes.filter(c=>c.retorno==='aprovado').length;
-  document.getElementById("totalContratacao").innerText = clientes.filter(c=>etapas[c.etapa]==='Contratação').length;
+    <div id="tab-caixa" class="tab-panel">
+        <div class="container">
+            <div class="table-box">
+                <table>
+                    <thead><tr><th>Nome</th><th>Parceiro</th><th>Financiamento</th><th>Etapa</th><th>Ações</th></tr></thead>
+                    <tbody id="cx-tabela"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-  const pipe = document.getElementById("pipeline"); pipe.innerHTML = "";
-  etapas.forEach((e, i) => {
-   const count = clientes.filter(c => c.etapa === i).length;
-   const d = document.createElement("div"); d.className=`step ${filtroEtapa===i?'active':''}`;
-   d.innerHTML=`<strong>${count}</strong>${e}`; d.onclick=()=> { filtroEtapa = (filtroEtapa===i)?null:i; render(); }; pipe.appendChild(d);
-  });
- }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
- function renderCaixa() {
-  const tbody = document.getElementById("cx-tabela"); tbody.innerHTML = "";
-  clientes.filter(c => c.bancos.includes("Caixa")).forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
- }
+        const firebaseConfig = {
+            apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
+            authDomain: "g6-imob-5f6d9.firebaseapp.com",
+            databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
+            projectId: "g6-imob-5f6d9",
+            storageBucket: "g6-imob-5f6d9.firebasestorage.app",
+            messagingSenderId: "553843254567",
+            appId: "1:553843254567:web:a23b85b852fab7ec297502"
+        };
 
- window.toggleBusca = () => { const b = document.getElementById('busca-box'); b.style.display = b.style.display==='block'?'none':'block'; };
- window.filtrarBusca = (v) => { buscaTermo = v; render(); };
- window.trocarAba = (aba, btn) => {
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+aba).classList.add('active'); btn.classList.add('active');
- };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const clientesRef = ref(db, "clientes");
 
- document.getElementById("btn-add-geral").onclick = window._g6.adicionar;
-</script>
+        const etapas = ["Atendido", "Aprovado", "Contratação", "Engenharia", "Jurídico", "Assinatura", "Registro", "Pagamento"];
+        const todosBancos = ["Bradesco", "Itaú", "Santander", "Inter", "Caixa"];
+        let clientes = [];
+        let filtroEtapa = null;
+
+        window._g6 = {
+            adicionar: () => {
+                const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
+                if(!n.value) return;
+                clientes.push({ nome: n.value, parceiro: p.value, retorno: r.value, valor: v.value, valorImovel: vi.value, etapa: 0, bancos: [], login: "", senha: "", registroAberto: false });
+                n.value=""; p.value=""; salvar();
+            },
+            alterarCampo: (i, f, v) => { clientes[i][f] = v; salvar(); },
+            toggleBanco: (i, b) => {
+                if(!Array.isArray(clientes[i].bancos)) clientes[i].bancos = [];
+                const idx = clientes[i].bancos.indexOf(b);
+                idx === -1 ? clientes[i].bancos.push(b) : clientes[i].bancos.splice(idx, 1);
+                salvar();
+            },
+            avancar: (i) => { if(clientes[i].etapa < etapas.length-1) { clientes[i].etapa++; salvar(); }},
+            voltar: (i) => { if(clientes[i].etapa > 0) { clientes[i].etapa--; salvar(); }},
+            excluir: (i) => { if(confirm("Excluir?")) { clientes.splice(i,1); salvar(); }},
+            toggleRegistro: (i) => { clientes[i].registroAberto = !clientes[i].registroAberto; render(); },
+            copiar: (texto, btn) => {
+                if(!texto) return;
+                navigator.clipboard.writeText(texto);
+                const original = btn.innerHTML;
+                btn.innerHTML = "✅";
+                setTimeout(() => btn.innerHTML = original, 1500);
+            }
+        };
+
+        function salvar() {
+            const obj = {}; clientes.forEach((c, i) => obj[i] = c);
+            set(clientesRef, obj);
+        }
+
+        onValue(clientesRef, (snap) => {
+            const data = snap.val();
+            clientes = data ? Object.values(data) : [];
+            render();
+        });
+
+        function renderBancosHTML(i, ativos) {
+            const logos = {
+                "Bradesco": "https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=64",
+                "Itaú": "https://www.google.com/s2/favicons?domain=itau.com.br&sz=64",
+                "Santander": "https://www.google.com/s2/favicons?domain=santander.com.br&sz=64",
+                "Inter": "https://www.google.com/s2/favicons?domain=bancointer.com.br&sz=64",
+                "Caixa": "https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64"
+            };
+            return todosBancos.map(b => `
+                <button class="banco-btn ${ativos.includes(b)?'ativo':''}" onclick="window._g6.toggleBanco(${i},'${b}')">
+                    <span class="banco-logo"><img src="${logos[b]}"></span>
+                    <span class="banco-nome">${b}</span>
+                </button>
+            `).join('');
+        }
+
+        function renderLinha(c, i, tbody) {
+            const tr = document.createElement("tr");
+            const isRegistro = etapas[c.etapa] === "Registro";
+            const bancosAtivos = Array.isArray(c.bancos) ? c.bancos : [];
+            
+            tr.innerHTML = `
+                <td style="font-weight:600">${c.nome} ${isRegistro ? `<br><span onclick="window._g6.toggleRegistro(${i})" style="font-size:11px; cursor:pointer; color:var(--sky)">${c.registroAberto?'fechar registro':'ver registro'}</span>`:''}</td>
+                <td>${c.parceiro || '-'}</td>
+                <td>${c.retorno}</td>
+                <td>${c.valor || '-'}</td>
+                <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
+                <td><div class="bancos-grid">${renderBancosHTML(i, bancosAtivos)}</div></td>
+                <td>
+                    <div class="actions">
+                        <button class="btn-icon btn-prev" onclick="window._g6.voltar(${i})">←</button>
+                        <button class="btn-icon btn-next" onclick="window._g6.avancar(${i})">→</button>
+                        <button class="btn-icon btn-delete" onclick="window._g6.excluir(${i})">X</button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+
+            if(isRegistro && c.registroAberto) {
+                const regTr = document.createElement("tr");
+                regTr.innerHTML = `
+                    <td colspan="7">
+                        <div class="registro-box">
+                            <b>Registro</b>
+                            <div class="cred-field">
+                                <span class="cred-label">Login / Protocolo</span>
+                                <div class="cred-wrap">
+                                    <input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampo(${i},'login',this.value)">
+                                    <button class="cred-copy" onclick="window._g6.copiar('${c.login||''}', this)">📋</button>
+                                </div>
+                            </div>
+                            <div class="cred-field">
+                                <span class="cred-label">Senha</span>
+                                <div class="cred-wrap">
+                                    <input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampo(${i},'senha',this.value)">
+                                    <button class="cred-copy" onclick="window._g6.copiar('${c.senha||''}', this)">📋</button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(regTr);
+            }
+        }
+
+        function render() {
+            const tbody = document.getElementById("tabela");
+            tbody.innerHTML = "";
+            let lista = filtroEtapa !== null ? clientes.filter(c => c.etapa === filtroEtapa) : clientes;
+            lista.forEach((c, i) => renderLinha(c, clientes.indexOf(c), tbody));
+            
+            document.getElementById("totalClientes").innerText = clientes.length;
+            document.getElementById("totalAprovados").innerText = clientes.filter(c => c.retorno === 'aprovado').length;
+            document.getElementById("totalContratacao").innerText = clientes.filter(c => etapas[c.etapa] === 'Contratação').length;
+
+            const pipe = document.getElementById("pipeline");
+            pipe.innerHTML = "";
+            etapas.forEach((e, i) => {
+                const count = clientes.filter(c => c.etapa === i).length;
+                const d = document.createElement("div");
+                d.className = `step ${filtroEtapa === i ? 'active' : ''}`;
+                d.innerHTML = `<strong>${count}</strong>${e}`;
+                d.onclick = () => { filtroEtapa = (filtroEtapa === i ? null : i); render(); };
+                pipe.appendChild(d);
+            });
+        }
+
+        window.trocarAba = (aba, btn) => {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + aba).classList.add('active');
+            btn.classList.add('active');
+        };
+    </script>
 </body>
 </html>
