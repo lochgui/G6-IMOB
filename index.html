@@ -1,435 +1,310 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>G6 Imobiliário</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-:root {
-  --bg:#0b1120; --surface:#131c2e; --surface2:#1a2640; --border:#1e3050;
-  --text:#e2e8f0; --muted:#64748b; --sky:#38bdf8; --green:#22c55e;
-  --yellow:#facc15; --red:#ef4444; --radius:12px;
-}
-body { margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+    <meta charset="UTF-8">
+    <title>G6 Imobiliário</title>
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, ::after { box-sizing: border-box; margin:0; padding:0; }
+        :root {
+            --bg:#0b1120;
+            --surface: #131c2e;
+            --border:#1e3050;
+            --text:#e2e8f0;
+            --muted: #64748b;
+            --yellow:#facc15;
+            --red: #ef4444;
+            --surface2:#1a2640;
+            --sky: #38bdf8;
+            --green:#22c55e;
+            --radius:12px;
+        }
+        body { margin:0; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height:100vh; }
+        header { display: flex; align-items:center; gap:14px; padding: 24px 32px 0; margin-bottom:16px; }
+        
+        /* LOGO ORIGINAL DO PDF */
+        header .logo { 
+            width: 42px; height: 42px; 
+            background: linear-gradient(135deg, var(--sky), #0ea5e9); 
+            border-radius: 10px; display:grid; place-items:center; 
+            font-size:20px; box-shadow:0 0 20px rgba(56,189,248,.25); 
+        }
 
-header { display:flex; align-items:center; gap:14px; padding:24px 32px 0; margin-bottom:16px; }
-header .logo { width:42px; height:42px; background:linear-gradient(135deg,var(--sky),#0ea5e9); border-radius:10px; display:grid; place-items:center; font-size:20px; box-shadow:0 0 20px rgba(56,189,248,.25); }
-header h1 { font-size:22px; font-weight:700; letter-spacing:-.3px; }
-header span { color:var(--muted); font-size:13px; margin-top:2px; display:block; }
+        .tabs { display: flex; gap:8px; padding:0 32px; margin-bottom:20px; }
+        .tab-btn { padding: 9px 22px; border-radius: 10px; border:1px solid var(--border); background: var(--surface); color:var(--muted); font-family: inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
+        .tab-btn.active { background:rgba(56,189,248,0.1); border-color:var(--sky); color:var(--sky); }
+        .tab-panel { display:none; }
+        .tab-panel.active { display:block; }
+        
+        .container { padding:0 32px 40px; }
+        .cards { display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin-bottom:24px; }
+        .card { background: var(--surface); border:1px solid var(--border); padding:20px 22px; border-radius: var(--radius); display: flex; align-items:center; gap:16px; transition:border-color .2s; }
+        .card-label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+        .card-value { font-size: 28px; font-weight:700; line-height:1; }
+        .card-value.blue { color:var(--sky); }
+        .card-value.green { color:var(--green); }
+        .card-value.amber { color:var(--yellow); }
 
-.tabs { display:flex; gap:8px; padding:0 32px; margin-bottom:20px; }
-.tab-btn { padding:9px 22px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
-.tab-btn:hover { color:var(--text); border-color:#2d4a70; }
-.tab-btn.active { background:rgba(56,189,248,.1); border-color:var(--sky); color:var(--sky); }
-.tab-btn.caixa-tab.active { background:rgba(0,91,158,.15); border-color:#4da6ff; color:#4da6ff; }
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
+        .pipeline { display:grid; grid-template-columns: repeat(9,1fr); gap:8px; margin-bottom:24px; }
+        .step { background: var(--surface); border:1px solid var(--border); padding: 10px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .2s; font-size:12px; color:var(--muted); }
+        .step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
+        .step strong { display:block; font-size:20px; font-weight:700; color:var(--text); }
+        .step.clear { background: var(--surface2); color:var(--muted); font-size:11px; display:grid; place-items:center; }
 
-.container { padding:0 32px 40px; }
+        .form-box { background: var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius: var(--radius); margin-bottom:20px; }
+        .form-grid { display:grid; grid-template-columns:2fr 2fr 1.5fr 1.5fr 1.5fr auto; gap:10px; align-items:end; }
+        .form-grid input, .form-grid select { padding: 9px 12px; border-radius: 8px; border:1px solid var(--border); background: var(--bg); color:var(--text); font-family: inherit; font-size:13px; outline: none; width:100%; }
+        .btn-add { padding: 10px 20px; background: var(--sky); border:none; border-radius: 8px; font-weight:700; cursor:pointer; height:38px; color: #0b1120; }
 
-.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
-.card { background:var(--surface); border:1px solid var(--border); padding:20px 22px; border-radius:var(--radius); display:flex; align-items:center; gap:16px; transition:border-color .2s; }
-.card:hover { border-color:#2d4a70; }
-.card-icon { width:42px; height:42px; border-radius:10px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
-.card-icon.blue  { background:rgba(56,189,248,.12); }
-.card-icon.green { background:rgba(34,197,94,.12); }
-.card-icon.amber { background:rgba(251,191,36,.12); }
-.card-info { display:flex; flex-direction:column; gap:2px; }
-.card-label { font-size:12px; color:var(--muted); font-weight:500; text-transform:uppercase; letter-spacing:.5px; }
-.card-value { font-size:28px; font-weight:700; line-height:1; }
-.card-value.blue  { color:var(--sky); }
-.card-value.green { color:var(--green); }
-.card-value.amber { color:var(--yellow); }
+        .table-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow:hidden; }
+        table { width: 100%; border-collapse:collapse; text-align:center; font-size: 13.5px; }
+        thead { background: var(--surface2); }
+        th { padding: 13px 14px; color:var(--muted); font-size:11px; font-weight: 600; text-transform:uppercase; border-bottom:1px solid var(--border); }
+        td { padding: 11px 14px; border-bottom:1px solid var(--border); }
 
-.pipeline { display:grid; grid-template-columns:repeat(9,1fr); gap:8px; margin-bottom:24px; }
-.step { background:var(--surface); border:1px solid var(--border); padding:10px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .2s; font-size:12px; color:var(--muted); user-select:none; }
-.step:hover { border-color:var(--sky); color:var(--text); transform:translateY(-1px); }
-.step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
-.step strong { display:block; font-size:20px; font-weight:700; color:var(--text); margin-bottom:2px; }
-.step.active strong { color:var(--sky); }
-.step.clear { background:var(--surface2); color:var(--muted); font-size:11px; }
-.step.clear:hover { color:var(--text); }
+        /* ESTILO DOS BOTÕES DE COPIAR (ADICIONADO) */
+        .cred-wrap { display: flex; align-items:center; gap:4px; }
+        .cred-input { padding:6px 10px; border-radius: 7px; border:1px solid var(--border); background: var(--surface); color:var(--text); font-size:13px; outline: none; width:140px; }
+        .cred-copy { width: 28px; height: 28px; border:1px solid var(--border); border-radius: 7px; background: var(--surface2); color: var(--text); cursor:pointer; font-size:13px; display:grid; place-items:center; transition:all .15s; }
+        .cred-copy:hover { border-color:var(--sky); background:rgba(56,189,248,0.2); }
 
-.form-box { background:var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius:var(--radius); margin-bottom:20px; }
-.form-box h3 { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:16px; }
-.form-grid { display:grid; grid-template-columns:2fr 2fr 1.5fr 1.5fr 1.5fr auto; gap:10px; align-items:end; }
-.form-grid label { display:flex; flex-direction:column; gap:5px; font-size:12px; color:var(--muted); }
-.form-grid input, .form-grid select { padding:9px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; width:100%; }
-.form-grid input:focus, .form-grid select:focus { border-color:var(--sky); }
-.btn-add { padding:10px 20px; background:var(--sky); color:#0b1120; border:none; border-radius:8px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; transition:opacity .2s,transform .1s; height:38px; }
-.btn-add:hover { opacity:.9; transform:translateY(-1px); }
+        .registro-box { background: var(--bg); border:1px solid var(--border); padding: 14px 18px; border-radius: 10px; display: flex; align-items:center; gap:14px; flex-wrap:wrap; margin: 10px; }
+        .badge-etapa { display:inline-block; padding:3px 10px; border-radius: 20px; font-size:11px; font-weight: 600; background: var(--surface2); color:var(--muted); border:1px solid var(--border); }
+        .actions { display: flex; gap:6px; justify-content:center; }
+        .btn-icon { width:32px; height: 32px; border:none; border-radius:8px; cursor:pointer; display:grid; place-items:center; }
+        .btn-next { background:rgba(34,197,94,.15); color:var(--green); }
+        .btn-prev { background:rgba(56,189,248,.15); color:var(--sky); }
+        .btn-delete { background:rgba(239,68,68,.15); color:var(--red); }
+        
+        .bancos-grid { display: flex; gap: 5px; flex-wrap:wrap; justify-content:center; }
+        .banco-btn { display: flex; flex-direction:column; align-items:center; gap:2px; padding: 3px 5px; border-radius: 6px; border:1.5px solid transparent; cursor:pointer; background: var(--surface2); transition:all .18s; opacity:.35; filter: grayscale(1); min-width: 36px; }
+        .banco-btn.ativo { opacity:1; filter: grayscale(0); }
+        .banco-nome { font-size: 8px; font-weight: 600; color:var(--muted); text-transform:uppercase; }
 
-.table-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-table { width:100%; border-collapse:collapse; text-align:center; font-size:13.5px; }
-thead { background:var(--surface2); }
-th { padding:13px 14px; color:var(--muted); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid var(--border); }
-tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
-tbody tr:last-child { border-bottom:none; }
-tbody tr:hover { background:rgba(255,255,255,.02); }
-tbody tr.row-aprovado    { border-left:3px solid var(--green); }
-tbody tr.row-condicionado { border-left:3px solid var(--yellow); }
-tbody tr.row-reprovado   { border-left:3px solid var(--red); }
-td { padding:11px 14px; vertical-align:middle; }
-
-.table-input { width:100%; background:transparent; color:var(--text); border:1px solid transparent; border-radius:6px; padding:5px 8px; text-align:center; font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; }
-.table-input:focus { border-color:var(--border); background:var(--bg); }
-.select-table { background:transparent; color:var(--text); border:1px solid transparent; border-radius:6px; padding:5px 8px; font-family:inherit; font-size:13px; outline:none; cursor:pointer; transition:border-color .2s; }
-.select-table:hover, .select-table:focus { border-color:var(--border); background:var(--bg); }
-.retorno-select { font-weight:600; font-size:12px; text-align:center; width:140px; }
-.retorno-select.aprovado     { color:var(--green); }
-.retorno-select.condicionado { color:var(--yellow); }
-.retorno-select.reprovado    { color:var(--red); }
-.badge-etapa { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; background:var(--surface2); color:var(--muted); border:1px solid var(--border); white-space:nowrap; }
-
-.actions { display:flex; gap:6px; justify-content:center; }
-.btn-icon { width:32px; height:32px; border:none; border-radius:8px; cursor:pointer; font-size:14px; display:grid; place-items:center; transition:all .15s; position:relative; }
-.btn-next   { background:rgba(34,197,94,.15); color:var(--green); }
-.btn-delete { background:rgba(239,68,68,.15); color:var(--red); }
-.btn-prev   { background:rgba(56,189,248,.15); color:var(--sky); }
-.btn-next:hover   { background:var(--green); color:#fff; transform:scale(1.1); }
-.btn-delete:hover { background:var(--red);   color:#fff; transform:scale(1.1); }
-.btn-prev:hover   { background:var(--sky);   color:#fff; transform:scale(1.1); }
-
-.bancos-grid { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
-.banco-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:3px 5px; border-radius:6px; border:1.5px solid transparent; cursor:pointer; background:var(--surface2); transition:all .18s; opacity:.35; filter:grayscale(1); min-width:36px; }
-.banco-btn:hover { opacity:.7; filter:grayscale(0); transform:translateY(-1px); }
-.banco-btn.ativo { opacity:1; filter:grayscale(0); transform:translateY(-1px); }
-.banco-btn .banco-logo { width:22px; height:22px; border-radius:4px; display:grid; place-items:center; overflow:hidden; background:#fff; }
-.banco-btn .banco-logo img { width:100%; height:100%; object-fit:contain; }
-.banco-btn .banco-nome { font-size:8px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; }
-
-.registro-box { background:var(--bg); border:1px solid var(--border); padding:14px 18px; border-radius:10px; text-align:left; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.registro-box b { color:var(--sky); font-size:13px; }
-.registro-box select { padding:7px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; }
-.registro-credenciais { display:flex; gap:15px; align-items:flex-start; flex-wrap:wrap; }
-.cred-field { display:flex; flex-direction:column; gap:4px; }
-.cred-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
-.cred-wrap { display:flex; align-items:center; gap:4px; }
-.cred-input { padding:6px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; width:140px; transition:border-color .2s; }
-.cred-input:focus { border-color:var(--sky); }
-.cred-copy { width:28px; height:28px; border:1px solid var(--border); border-radius:7px; background:var(--surface2); color:var(--text); cursor:pointer; font-size:13px; display:grid; place-items:center; transition:all .15s; }
-.cred-copy:hover { border-color:var(--sky); background:rgba(56,189,248,.1); transform:scale(1.1); }
-
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:100; place-items:center; }
-.modal-overlay.open { display:grid; }
-.modal { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px 32px; width:360px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.5); }
-.modal-btns { display:flex; gap:10px; justify-content:center; margin-top:20px; }
-.modal-btns button { padding:9px 24px; border-radius:8px; border:none; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; }
-.btn-cancel  { background:var(--surface2); color:var(--text); }
-.btn-confirm { background:var(--red); color:#fff; }
-
-.caixa-info { background:rgba(0,91,158,.1); border:1px solid rgba(77,166,255,.3); border-radius:10px; padding:12px 18px; margin-bottom:20px; font-size:13px; color:#4da6ff; display:flex; align-items:center; gap:8px; }
-.empty { padding:48px 20px; text-align:center; color:var(--muted); }
-</style>
+        .modal-overlay { display: none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index: 100; place-items:center; }
+        .modal-overlay.open { display:grid; }
+        .modal { background: var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px 32px; width:360px; text-align:center; }
+    </style>
 </head>
 <body>
+    <header>
+        <svg width="340" height="75" viewBox="0 0 340 75" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a6fc4"/><stop offset="100%" stop-color="#0d4a8a"/></linearGradient>
+                <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8890a"/><stop offset="100%" stop-color="#c46a00"/></linearGradient>
+            </defs>
+            <g transform="translate(0,8)">
+                <rect x="0" y="22" width="48" height="36" rx="3" fill="url(#lg1)"/>
+                <polygon points="24,2 54,24 -6,24" fill="url(#lg2)"/>
+                <rect x="18" y="34" width="12" height="24" rx="2" fill="white" opacity="0.9"/>
+                <text x="62" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="-1">G6</text>
+                <line x1="112" y1="18" x2="112" y2="54" stroke="#c8d8ea" stroke-width="1.2"/>
+                <text x="122" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="2">IMOBILIÁRIO</text>
+            </g>
+        </svg>
 
-<header>
-  <svg width="340" height="75" viewBox="0 0 340 75" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#1a6fc4"/>
-        <stop offset="100%" stop-color="#0d4a8a"/>
-      </linearGradient>
-      <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#e8890a"/>
-        <stop offset="100%" stop-color="#c46a00"/>
-      </linearGradient>
-    </defs>
-    <g transform="translate(0, 8)">
-      <rect x="0" y="22" width="48" height="36" rx="3" fill="url(#lg1)"/>
-      <polygon points="24,2 54,24 -6,24" fill="url(#lg2)"/>
-      <rect x="18" y="34" width="12" height="24" rx="2" fill="white" opacity="0.9"/>
-      <text x="62" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="-1">G6</text>
-      <line x1="112" y1="18" x2="112" y2="54" stroke="#c8d8ea" stroke-width="1.2"/>
-      <text x="122" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="2">IMOBILIÁRIO</text>
-      </g>
-  </svg>
-  <div id="status-bar" style="display:none;margin-left:auto;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:600;"></div>
-  <div style="margin-left:auto;position:relative;">
-    <button id="btn-lupa" onclick="toggleBusca()" style="width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:all .2s;">🔍</button>
-    <div id="busca-box" style="display:none;position:absolute;right:0;top:44px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;width:280px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:50;">
-      <input id="busca-input" type="text" placeholder="Buscar cliente..." oninput="filtrarBusca(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none;">
-      <div id="busca-resultados" style="margin-top:8px;max-height:200px;overflow-y:auto;"></div>
-    </div>
-  </div>
-</header>
-
-<div class="tabs">
-  <button class="tab-btn active" onclick="trocarAba('geral',this)">🏦 Geral</button>
-  <button class="tab-btn caixa-tab" onclick="trocarAba('caixa',this)">🏛️ Caixa</button>
-</div>
-
-<div id="tab-geral" class="tab-panel active">
-<div class="container">
-  <div class="cards">
-    <div class="card"><div class="card-icon blue">👥</div><div class="card-info"><span class="card-label">Total de Clientes</span><span class="card-value blue" id="totalClientes">0</span></div></div>
-    <div class="card"><div class="card-icon green">✅</div><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="totalAprovados">0</span></div></div>
-    <div class="card"><div class="card-icon amber">📝</div><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="totalContratacao">0</span></div></div>
-  </div>
-  <div class="pipeline" id="pipeline"></div>
-  <div class="form-box">
-    <h3>Adicionar Cliente</h3>
-    <div class="form-grid">
-      <label>Nome<input id="nome" placeholder="Nome completo"></label>
-      <label>Parceiro<input id="parceiro" placeholder="Parceiro"></label>
-      <label>Retorno<select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
-      <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
-      <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
-      <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
-    </div>
-  </div>
-  <div class="table-box">
-    <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
-      <tbody id="tabela"></tbody>
-    </table>
-  </div>
-</div>
-</div>
-
-<div id="tab-caixa" class="tab-panel">
-<div class="container">
-  <div class="caixa-info">🏛️ Esta aba mostra automaticamente todos os clientes que têm a <strong>Caixa</strong> selecionada.</div>
-  <div class="cards">
-    <div class="card"><div class="card-icon blue">👥</div><div class="card-info"><span class="card-label">Clientes Caixa</span><span class="card-value blue" id="cx-totalClientes">0</span></div></div>
-    <div class="card"><div class="card-icon green">✅</div><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="cx-totalAprovados">0</span></div></div>
-    <div class="card"><div class="card-icon amber">📝</div><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="cx-totalContratacao">0</span></div></div>
-  </div>
-  <div class="pipeline" id="cx-pipeline"></div>
-  <div class="table-box">
-    <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
-      <tbody id="cx-tabela"></tbody>
-    </table>
-  </div>
-</div>
-</div>
-
-<div class="modal-overlay" id="modalOverlay"><div class="modal"><h3>⚠️ Excluir cliente?</h3><p>Essa ação não pode ser desfeita.</p><div class="modal-btns"><button class="btn-cancel" id="btn-cancel">Cancelar</button><button class="btn-confirm" id="btn-confirm">Excluir</button></div></div></div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
-  authDomain: "g6-imob-5f6d9.firebaseapp.com",
-  databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
-  projectId: "g6-imob-5f6d9",
-  storageBucket: "g6-imob-5f6d9.firebasestorage.app",
-  messagingSenderId: "553843254567",
-  appId: "1:553843254567:web:a23b85b852fab7ec297502"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const clientesRef = ref(db, "clientes");
-
-const etapas = ["Atendido","Aprovado","Contratação","Engenharia","Jurídico","Assinatura","Registro","Pagamento"];
-const todosBancos = ["Bradesco","Itaú","Santander","Inter","Caixa"];
-let clientes = [];
-let filtroEtapa = null;
-let cxFiltroEtapa = null;
-let indexParaExcluir = null;
-
-function setStatus(msg, cor) {
-  const el = document.getElementById("status-bar");
-  if (!el) return;
-  el.textContent = msg;
-  el.style.background = cor==="ok"?"rgba(34,197,94,.15)":cor==="err"?"rgba(239,68,68,.15)":"rgba(251,191,36,.15)";
-  el.style.color = cor==="ok"?"#22c55e":cor==="err"?"#ef4444":"#facc15";
-  el.style.display = "block";
-  if (cor==="ok") setTimeout(()=>el.style.display="none", 2000);
-}
-
-onValue(clientesRef, (snapshot) => {
-  const data = snapshot.val();
-  clientes = data ? Object.values(data) : [];
-  clientes = clientes.map(c => {
-    if (!Array.isArray(c.bancos)) c.bancos = c.bancos ? [c.bancos] : [];
-    return c;
-  });
-  render(); renderCaixa();
-  setStatus("✓ Sincronizado","ok");
-}, () => setStatus("⚠ Sem conexão","err"));
-
-function salvar() {
-  const obj = {};
-  clientes.forEach((c,i) => { obj[i] = c; });
-  set(clientesRef, obj).then(()=>setStatus("✓ Salvo","ok")).catch(()=>setStatus("⚠ Erro ao salvar","err"));
-}
-
-function obterLinkRegistro(r){
-  const links = {
-    "1": "https://1riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "2": "https://2riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "3": "https://3riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "4": "https://4riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "5": "https://5riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online"
-  };
-  return links[r] || "";
-}
-
-function adicionarCliente(){
-  const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
-  if(!n.value.trim()){ n.focus(); return; }
-  clientes.push({ nome:n.value.trim(), parceiro:p.value.trim(), retorno:r.value, valor:v.value.trim(), valorImovel:vi.value.trim(), status:"", bancos:[], etapa:0, registro:"", login:"", senha:"", proposta:"", registroSalvo:false, statusData:"" });
-  n.value=""; p.value=""; v.value=""; vi.value=""; r.value="aprovado";
-  salvar();
-}
-
-function alterarStatus(i, v) {
-  clientes[i].status = v;
-  if (v) {
-    const agora = new Date();
-    const dataFormatada = agora.toLocaleDateString('pt-BR');
-    const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    clientes[i].statusData = `${dataFormatada} às ${horaFormatada}`;
-  } else {
-    clientes[i].statusData = '';
-  }
-  salvar();
-}
-
-function renderLinha(c, i, tbody) {
-  const bancosAtivos = Array.isArray(c.bancos) ? c.bancos : [];
-  const row = document.createElement("tr");
-  row.className = `row-${c.retorno}`;
-  row.innerHTML = `
-    <td style="font-weight:600">
-      ${c.nome}
-      ${etapas[c.etapa]==="Registro" ? `<br><span onclick="window._g6.toggleRegistro(${i})" style="font-size:11px;font-weight:400;color:${c.registroAberto?'var(--sky)':'var(--muted)'};cursor:pointer;letter-spacing:.3px;">📄 ${c.registroAberto?'fechar registro':'ver registro'}</span>` : ''}
-    </td>
-    <td style="color:var(--muted)">${c.parceiro||'—'}</td>
-    <td>
-      <select onchange="window._g6.alterarRetorno(${i},this.value)" class="select-table retorno-select ${c.retorno}">
-        <option value="aprovado" ${c.retorno==="aprovado"?"selected":""}>✅ Aprovado</option>
-        <option value="condicionado" ${c.retorno==="condicionado"?"selected":""}>⚠️ Condicionado</option>
-        <option value="reprovado" ${c.retorno==="reprovado"?"selected":""}>❌ Reprovado</option>
-      </select>
-    </td>
-    <td>R$ ${c.valor||'—'}</td>
-    <td>R$ ${c.valorImovel||'—'}</td>
-    <td>
-      ${etapas[c.etapa]==="Registro" ? `<span style="font-size:11px;color:var(--muted);font-style:italic;">ver registro</span>` : `<input class="table-input" value="${c.status||''}" placeholder="—" onchange="window._g6.alterarStatus(${i},this.value)">${c.statusData ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">${c.statusData}</div>` : ''}`}
-    </td>
-    <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
-    <td><div class="bancos-grid">${renderBancosHTML(i, bancosAtivos)}</div></td>
-    <td><div class="actions"><button class="btn-icon btn-prev" onclick="window._g6.voltar(${i})">←</button><button class="btn-icon btn-next" onclick="window._g6.avancar(${i})">→</button><button class="btn-icon btn-delete" onclick="window._g6.pedirExclusao(${i})">✕</button></div></td>`;
-  tbody.appendChild(row);
-
-  if(etapas[c.etapa]==="Registro" && c.registroAberto){
-    const regRow = document.createElement("tr");
-    regRow.innerHTML = `<td colspan="9" style="padding:2px 14px 12px;">
-      <div class="registro-box">
-        <b>📄 Registro</b>
-        <select onchange="window._g6.alterarCampoRegistro(${i},'registro',this.value)">
-          <option value="">Cartório</option>
-          <option value="1" ${c.registro=="1"?"selected":""}>1º RI</option>
-          <option value="2" ${c.registro=="2"?"selected":""}>2º RI</option>
-          <option value="3" ${c.registro=="3"?"selected":""}>3º RI</option>
-          <option value="4" ${c.registro=="4"?"selected":""}>4º RI</option>
-          <option value="5" ${c.registro=="5"?"selected":""}>5º RI</option>
-        </select>
-        ${c.registro?`<a class="btn-registro-link" href="${obterLinkRegistro(c.registro)}" target="_blank" style="padding:7px 12px; background:rgba(56,189,248,.1); color:var(--sky); border-radius:8px; font-size:12px; text-decoration:none;">🔗 Link</a>`:''}
-        <div class="registro-credenciais">
-          <div class="cred-field"><span class="cred-label">Login</span><div class="cred-wrap"><input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampoRegistro(${i},'login',this.value)"></div></div>
-          <div class="cred-field"><span class="cred-label">Senha</span><div class="cred-wrap"><input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampoRegistro(${i},'senha',this.value)"></div></div>
-          <div class="cred-field">
-            <span class="cred-label">Status do Registro</span>
-            <div class="cred-wrap" style="flex-direction: column; align-items: flex-start;">
-              <input class="cred-input" style="width:320px" value="${c.status||''}" onchange="window._g6.alterarStatus(${i},this.value)">
-              ${c.statusData ? `<div style="font-size:10px; color:var(--muted); margin-top:4px;">🕒 Atualizado em: ${c.statusData}</div>` : ''}
+        <div style="margin-left: auto; position: relative;">
+            <button id="btn-lupa" onclick="window.toggleBusca()" style="width: 44px;height: 44px;border-radius:10px;border:1px solid var(--border); background: var(--surface);color:var(--muted); cursor:pointer;font-size:20px;display:grid;place-items:center;">Q</button>
+            <div id="busca-box" style="display:none;position:absolute;right:0;top: 44px;background:var(--surface); border:1px solid var(--border); border-radius:10px;padding: 10px; width: 280px; z-index:50;">
+                <input id="busca-input" type="text" placeholder="Buscar cliente..." oninput="window.filtrarBusca(this.value)" style="width: 100%; padding: 9px 12px; border-radius:8px; border:1px solid var(--border); background: var(--bg); color:var(--text); outline: none;">
             </div>
-          </div>
         </div>
-      </div>
-    </td>`;
-    tbody.appendChild(regRow);
-  }
-}
+    </header>
 
-function renderBancosHTML(i, ativos) {
-  const logos = {
-    "Bradesco": "https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=64",
-    "Itaú":     "https://www.google.com/s2/favicons?domain=itau.com.br&sz=64",
-    "Santander":"https://www.google.com/s2/favicons?domain=santander.com.br&sz=64",
-    "Inter":    "https://www.google.com/s2/favicons?domain=inter.co&sz=64",
-    "Caixa":    "https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64"
-  };
-  return todosBancos.map(b=>`
-    <button class="banco-btn ${ativos.includes(b)?'ativo':''}" onclick="window._g6.toggleBanco(${i},'${b}')">
-      <span class="banco-logo"><img src="${logos[b]}" alt="${b}"></span>
-      <span class="banco-nome">${b}</span>
-    </button>`).join('');
-}
+    <div class="tabs">
+        <button class="tab-btn active" onclick="trocarAba('geral', this)">Geral</button>
+        <button class="tab-btn" onclick="trocarAba('caixa', this)">Caixa</button>
+    </div>
 
-// Funções Globais expostas para o HTML
-window._g6 = {
-  adicionarCliente,
-  pedirExclusao: (i) => { indexParaExcluir=i; document.getElementById("modalOverlay").classList.add("open"); },
-  fecharModal: () => { indexParaExcluir=null; document.getElementById("modalOverlay").classList.remove("open"); },
-  confirmarExclusao: () => { if(indexParaExcluir!==null){ clientes.splice(indexParaExcluir,1); salvar(); } window._g6.fecharModal(); },
-  avancar: (i) => { if(clientes[i].etapa<etapas.length-1){ clientes[i].etapa++; salvar(); }},
-  voltar: (i) => { if(clientes[i].etapa>0){ clientes[i].etapa--; salvar(); }},
-  alterarRetorno: (i,v) => { clientes[i].retorno=v; salvar(); },
-  alterarStatus,
-  toggleBanco: (i,b) => { const idx=clientes[i].bancos.indexOf(b); if(idx===-1) clientes[i].bancos.push(b); else clientes[i].bancos.splice(idx,1); salvar(); },
-  alterarCampoRegistro: (i,f,v) => { clientes[i][f]=v; salvar(); },
-  toggleRegistro: (i) => { clientes[i].registroAberto = !clientes[i].registroAberto; render(); },
-  copiar: (t, btn) => { navigator.clipboard.writeText(t); btn.textContent='✅'; setTimeout(()=>btn.textContent='📋',1500); }
-};
+    <div id="tab-geral" class="tab-panel active">
+        <div class="container">
+            <div class="cards">
+                <div class="card"><div class="card-info"><span class="card-label">Total Clientes</span><span class="card-value blue" id="totalClientes">0</span></div></div>
+                <div class="card"><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="totalAprovados">0</span></div></div>
+                <div class="card"><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="totalContratacao">0</span></div></div>
+            </div>
+            <div class="pipeline" id="pipeline"></div>
+            <div class="form-box">
+                <div class="form-grid">
+                    <label>Nome<input id="nome" placeholder="Nome"></label>
+                    <label>Parceiro<input id="parceiro" placeholder="Parceiro"></label>
+                    <label>Retorno<select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
+                    <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
+                    <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
+                    <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
+                </div>
+            </div>
+            <div class="table-box">
+                <table>
+                    <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>V. Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-function render(){
-  const tbody = document.getElementById("tabela");
-  tbody.innerHTML = "";
-  let lista = filtroEtapa!==null ? clientes.filter(c=>c.etapa===filtroEtapa) : clientes;
-  lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-  atualizarDashboard(); atualizarPipeline();
-}
+    <div id="tab-caixa" class="tab-panel">
+        <div class="container">
+            <div class="caixa-info">Filtro automático para clientes Caixa.</div>
+            <div class="table-box">
+                <table>
+                    <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>V. Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos</th><th>Ações</th></tr></thead>
+                    <tbody id="cx-tabela"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-function atualizarDashboard(){
-  document.getElementById("totalClientes").innerText=clientes.length;
-  document.getElementById("totalAprovados").innerText=clientes.filter(c=>c.retorno==="aprovado").length;
-  document.getElementById("totalContratacao").innerText=clientes.filter(c=>etapas[c.etapa]==="Contratação").length;
-}
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3>Excluir cliente?</h3>
+            <div class="modal-btns">
+                <button onclick="window._g6.fecharModal()">Cancelar</button>
+                <button onclick="window._g6.confirmarExclusao()" style="background:var(--red); color:white;">Excluir</button>
+            </div>
+        </div>
+    </div>
 
-function atualizarPipeline(){
-  const pipe=document.getElementById("pipeline"); pipe.innerHTML="";
-  etapas.forEach((e,i)=>{
-    const t=clientes.filter(c=>c.etapa===i).length;
-    const d=document.createElement("div"); d.className=`step${filtroEtapa===i?' active':''}`; d.innerHTML=`<strong>${t}</strong>${e}`; d.onclick=()=> { filtroEtapa=i; render(); }; pipe.appendChild(d);
-  });
-  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Todos"; all.onclick=()=>{ filtroEtapa=null; render(); }; pipe.appendChild(all);
-}
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
-function renderCaixa(){
-  const tbody = document.getElementById("cx-tabela"); tbody.innerHTML = "";
-  const cx = clientes.filter(c => c.bancos.includes("Caixa"));
-  let lista = cxFiltroEtapa!==null ? cx.filter(c=>c.etapa===cxFiltroEtapa) : cx;
-  lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-  document.getElementById("cx-totalClientes").innerText=cx.length;
-}
+        const firebaseConfig = {
+            apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
+            authDomain: "g6-imob-5f6d9.firebaseapp.com",
+            databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
+            projectId: "g6-imob-5f6d9",
+            storageBucket: "g6-imob-5f6d9.firebasestorage.app",
+            messagingSenderId: "553843254567",
+            appId: "1:553843254567:web:a23b85b852fab7ec297502"
+        };
 
-window.toggleBusca = () => {
-  const b = document.getElementById('busca-box');
-  b.style.display = b.style.display==='block' ? 'none' : 'block';
-};
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const clientesRef = ref(db, "clientes");
 
-window.trocarAba = (aba, btn) => {
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+aba).classList.add('active');
-  btn.classList.add('active');
-};
+        const etapas = ["Atendido", "Aprovado", "Contratação", "Engenharia", "Jurídico", "Assinatura", "Registro", "Pagamento"];
+        const todosBancos = ["Bradesco", "Itaú", "Santander", "Inter", "Caixa"];
+        let clientes = [];
+        let filtroEtapa = null;
+        let indexParaExcluir = null;
+        let buscaTermo = "";
 
-document.getElementById("btn-add-geral").onclick = adicionarCliente;
-document.getElementById("btn-cancel").onclick = window._g6.fecharModal;
-document.getElementById("btn-confirm").onclick = window._g6.confirmarExclusao;
+        function obterLinkRegistro(r) {
+            const links = { "1": "https://lriflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online", "2": "https://2riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online", "3": "https://3riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online", "4": "https://4riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online", "5": "https://5riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online" };
+            return links[r] || "";
+        }
 
-</script>
+        window._g6 = {
+            adicionar: () => {
+                const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
+                if(!n.value.trim()) return;
+                clientes.push({ nome: n.value.trim(), parceiro: p.value, retorno: r.value, valor: v.value, valorImovel: vi.value, etapa: 0, bancos: [], registro: "", login: "", senha: "", registroAberto: false });
+                n.value=""; p.value=""; salvar();
+            },
+            fecharModal: () => document.getElementById("modalOverlay").classList.remove("open"),
+            pedirExclusao: (i) => { indexParaExcluir = i; document.getElementById("modalOverlay").classList.add("open"); },
+            confirmarExclusao: () => { if(indexParaExcluir!==null) { clientes.splice(indexParaExcluir, 1); salvar(); window._g6.fecharModal(); }},
+            avancar: (i) => { if(clientes[i].etapa < etapas.length-1) { clientes[i].etapa++; salvar(); }},
+            voltar: (i) => { if(clientes[i].etapa > 0) { clientes[i].etapa--; salvar(); }},
+            toggleBanco: (i, b) => { const idx = clientes[i].bancos.indexOf(b); if(idx===-1) clientes[i].bancos.push(b); else clientes[i].bancos.splice(idx,1); salvar(); },
+            alterarCampo: (i, f, v) => { clientes[i][f] = v; salvar(); },
+            toggleRegistro: (i) => { clientes[i].registroAberto = !clientes[i].registroAberto; render(); renderCaixa(); },
+            copiar: (texto, btn) => {
+                navigator.clipboard.writeText(texto);
+                btn.textContent = '✅';
+                setTimeout(() => { btn.textContent = '📋'; }, 1500);
+            }
+        };
+
+        function salvar() {
+            const obj = {}; clientes.forEach((c, i) => { obj[i] = c; });
+            set(clientesRef, obj);
+        }
+
+        onValue(clientesRef, (snap) => {
+            const data = snap.val();
+            clientes = data ? Object.values(data).map(c => ({...c, bancos: c.bancos || []})) : [];
+            render(); renderCaixa();
+        });
+
+        function renderLinha(c, i, tbody) {
+            const row = document.createElement("tr");
+            const isReg = etapas[c.etapa] === "Registro";
+            row.innerHTML = `
+                <td style="font-weight:600">${c.nome} ${isReg ? `<br><span onclick="window._g6.toggleRegistro(${i})" style="font-size:10px; cursor:pointer; color:var(--sky)">${c.registroAberto?'recolher':'ver registro'}</span>`:''}</td>
+                <td>${c.parceiro || '-'}</td>
+                <td>${c.retorno}</td>
+                <td>${c.valor || '-'}</td>
+                <td>${c.valorImovel || '-'}</td>
+                <td><input value="${c.status||''}" onchange="window._g6.alterarCampo(${i},'status',this.value)" style="background:transparent; border:none; color:inherit; text-align:center; width:80px;"></td>
+                <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
+                <td><div class="bancos-grid">${todosBancos.map(b => `<button class="banco-btn ${c.bancos.includes(b)?'ativo':''}" onclick="window._g6.toggleBanco(${i},'${b}')"><span class="banco-nome">${b}</span></button>`).join('')}</div></td>
+                <td>
+                    <div class="actions">
+                        <button class="btn-icon btn-prev" onclick="window._g6.voltar(${i})">←</button>
+                        <button class="btn-icon btn-next" onclick="window._g6.avancar(${i})">→</button>
+                        <button class="btn-icon btn-delete" onclick="window._g6.pedirExclusao(${i})">X</button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+
+            if(isReg && c.registroAberto) {
+                const rRow = document.createElement("tr");
+                rRow.innerHTML = `
+                    <td colspan="9">
+                        <div class="registro-box">
+                            <b>Registro</b>
+                            <select onchange="window._g6.alterarCampo(${i},'registro',this.value)">
+                                <option value="">Cartório</option>
+                                ${[1,2,3,4,5].map(n => `<option value="${n}" ${c.registro==n?'selected':''}>${n}° RI</option>`).join('')}
+                            </select>
+                            <div class="cred-wrap">
+                                <span>Login:</span>
+                                <input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampo(${i},'login',this.value)">
+                                <button class="cred-copy" onclick="window._g6.copiar('${c.login||''}', this)">📋</button>
+                            </div>
+                            <div class="cred-wrap">
+                                <span>Senha:</span>
+                                <input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampo(${i},'senha',this.value)">
+                                <button class="cred-copy" onclick="window._g6.copiar('${c.senha||''}', this)">📋</button>
+                            </div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(rRow);
+            }
+        }
+
+        function render() {
+            const tbody = document.getElementById("tabela"); tbody.innerHTML = "";
+            let lista = filtroEtapa !== null ? clientes.filter(c => c.etapa === filtroEtapa) : clientes;
+            if(buscaTermo) lista = lista.filter(c => c.nome.toLowerCase().includes(buscaTermo.toLowerCase()));
+            lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
+            document.getElementById("totalClientes").innerText = clientes.length;
+            const pipe = document.getElementById("pipeline"); pipe.innerHTML = "";
+            etapas.forEach((e, i) => {
+                const count = clientes.filter(c => c.etapa === i).length;
+                const d = document.createElement("div"); d.className=`step ${filtroEtapa===i?'active':''}`;
+                d.innerHTML=`<strong>${count}</strong>${e}`; d.onclick=()=> { filtroEtapa = (filtroEtapa===i)?null:i; render(); }; pipe.appendChild(d);
+            });
+        }
+
+        function renderCaixa() {
+            const tbody = document.getElementById("cx-tabela"); tbody.innerHTML = "";
+            clientes.filter(c => c.bancos.includes("Caixa")).forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
+        }
+
+        window.toggleBusca = () => { const b = document.getElementById('busca-box'); b.style.display = b.style.display==='block'?'none':'block'; };
+        window.filtrarBusca = (v) => { buscaTermo = v; render(); };
+        window.trocarAba = (aba, btn) => {
+            document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+            document.getElementById('tab-'+aba).classList.add('active'); btn.classList.add('active');
+        };
+
+        document.getElementById("btn-add-geral").onclick = window._g6.adicionar;
+    </script>
 </body>
 </html>
-
