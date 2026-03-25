@@ -71,7 +71,6 @@ body.compact .card-value { font-size:20px; }
 body.compact .step { padding:7px 6px; font-size:11px; }
 .step:hover { border-color:var(--sky); color:var(--text); transform:translateY(-1px); }
 .step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
-.step.drag-over { border-color:var(--sky); background:rgba(56,189,248,.18); transform:scale(1.04); }
 .step strong { display:block; font-size:20px; font-weight:700; color:var(--text); margin-bottom:2px; }
 body.compact .step strong { font-size:16px; }
 .step.active strong { color:var(--sky); }
@@ -96,7 +95,7 @@ body.compact .step strong { font-size:16px; }
 /* ── FORM ── */
 .form-box { background:var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius:var(--radius); margin-bottom:20px; }
 .form-box h3 { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:16px; }
-.form-grid { display:grid; grid-template-columns:2fr 2fr 1.2fr 1.2fr 1.2fr 1.2fr auto; gap:10px; align-items:end; }
+.form-grid { display:grid; grid-template-columns:2fr 2fr 1.2fr 1.2fr 1.2fr auto; gap:10px; align-items:end; }
 .form-grid label { display:flex; flex-direction:column; gap:5px; font-size:12px; color:var(--muted); }
 .form-grid input, .form-grid select { padding:9px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; width:100%; }
 .form-grid input:focus, .form-grid select:focus { border-color:var(--sky); }
@@ -120,8 +119,6 @@ tbody tr:hover { background:rgba(255,255,255,.02); }
 tbody tr.row-aprovado     { border-left:3px solid var(--green); }
 tbody tr.row-condicionado { border-left:3px solid var(--yellow); }
 tbody tr.row-reprovado    { border-left:3px solid var(--red); }
-tbody tr.drag-row         { opacity:.4; background:rgba(56,189,248,.06); }
-tbody tr.drag-row-over    { border-top:2px solid var(--sky); }
 td { padding:10px 12px; vertical-align:middle; }
 body.compact td { padding:6px 8px; }
 .table-input { width:100%; background:transparent; color:var(--text); border:1px solid transparent; border-radius:6px; padding:5px 8px; text-align:center; font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; }
@@ -151,12 +148,10 @@ body.compact td { padding:6px 8px; }
 .btn-delete { background:rgba(239,68,68,.15);  color:var(--red); }
 .btn-prev   { background:rgba(56,189,248,.15); color:var(--sky); }
 .btn-note   { background:rgba(167,139,250,.15);color:var(--purple); }
-.btn-drag   { background:rgba(100,116,139,.15);color:var(--muted); cursor:grab; }
 .btn-next:hover   { background:var(--green);  color:#fff; transform:scale(1.1); }
 .btn-delete:hover { background:var(--red);    color:#fff; transform:scale(1.1); }
 .btn-prev:hover   { background:var(--sky);    color:#fff; transform:scale(1.1); }
 .btn-note:hover   { background:var(--purple); color:#fff; transform:scale(1.1); }
-.btn-drag:hover   { background:var(--muted);  color:#fff; }
 .btn-icon::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; z-index:10; }
 .btn-icon:hover::after { opacity:1; }
 
@@ -306,21 +301,7 @@ body.compact td { padding:6px 8px; }
   <div class="toolbar-sep"></div>
   <button class="btn-toolbar" onclick="exportarCSV()">⬇️ Exportar CSV</button>
   <button class="btn-toolbar" id="btn-compacto" onclick="toggleCompacto()">⊟ Compacto</button>
-  <div class="toolbar-sep"></div>
-  <label style="font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;cursor:pointer;">
-    ⏰ Alerta parado após
-    <select id="dias-parado-select" onchange="salvarDiasParado(this.value)" style="padding:4px 8px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;font-size:12px;outline:none;">
-      <option value="3">3 dias</option>
-      <option value="5">5 dias</option>
-      <option value="7" selected>7 dias</option>
-      <option value="14">14 dias</option>
-      <option value="30">30 dias</option>
-    </select>
-  </label>
 </div>
-<!-- TAG FILTER BAR -->
-<div id="tag-filter-bar" style="display:flex;align-items:center;gap:6px;padding:0 32px;margin-bottom:12px;flex-wrap:wrap;min-height:0;"></div>
-
 <!-- ABA GERAL -->
 <div id="tab-geral" class="tab-panel active">
 <div class="container">
@@ -339,7 +320,6 @@ body.compact td { padding:6px 8px; }
       <label>Retorno<select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
       <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
       <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
-      <label>Prazo/Vencimento<input id="prazoInput" type="date"></label>
       <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
     </div>
   </div>
@@ -387,9 +367,8 @@ body.compact td { padding:6px 8px; }
 <div id="tab-finalizados" class="tab-panel">
 <div class="container">
   <div class="caixa-info" style="background:rgba(74,222,128,.08);border-color:rgba(74,222,128,.3);color:#4ade80;">✅ Clientes marcados como <strong>Finalizados</strong> — arquivados fora do fluxo principal.</div>
-  <div class="cards" style="grid-template-columns:repeat(3,1fr)">
+  <div class="cards" style="grid-template-columns:repeat(2,1fr)">
     <div class="card"><div class="card-icon green">✅</div><div class="card-info"><span class="card-label">Total Finalizados</span><span class="card-value green" id="fin-total">0</span></div></div>
-    <div class="card"><div class="card-icon blue">💰</div><div class="card-info"><span class="card-label">Aprovados Finalizados</span><span class="card-value blue" id="fin-aprovados">0</span></div></div>
     <div class="card"><div class="card-icon amber">📅</div><div class="card-info"><span class="card-label">Último Finalizado</span><span class="card-value amber" style="font-size:16px" id="fin-ultimo">—</span></div></div>
   </div>
   <div class="table-box">
@@ -413,19 +392,6 @@ body.compact td { padding:6px 8px; }
   </div>
 </div>
 
-<!-- MODAL NOTA -->
-<div class="modal-overlay" id="modalNota">
-  <div class="modal" style="text-align:left;">
-    <h3 style="margin-bottom:4px;">📝 Observações</h3>
-    <p id="nota-cliente-nome" style="font-size:13px;color:var(--sky);margin-bottom:12px;"></p>
-    <textarea id="nota-textarea" placeholder="Digite suas observações aqui..."></textarea>
-    <div class="modal-btns" style="justify-content:flex-end;">
-      <button class="btn-cancel" onclick="fecharModalNota()">Cancelar</button>
-      <button class="btn-save-note" onclick="salvarNota()">Salvar</button>
-    </div>
-  </div>
-</div>
-
 <!-- MODAL HISTÓRICO -->
 <div class="modal-overlay" id="modalHistorico">
   <div class="modal" style="text-align:left;width:500px;max-width:94vw;">
@@ -434,37 +400,6 @@ body.compact td { padding:6px 8px; }
     <div class="hist-list" id="hist-list"></div>
     <div class="modal-btns" style="justify-content:flex-end;">
       <button class="btn-cancel" onclick="fecharModalHistorico()">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL CLIENTES PARADOS -->
-<div class="modal-overlay" id="modalParados">
-  <div class="modal" style="text-align:left;width:540px;max-width:94vw;">
-    <h3 style="margin-bottom:4px;">⏰ Clientes Sem Atualização</h3>
-    <p id="parados-subtitulo" style="font-size:13px;color:var(--muted);margin-bottom:14px;"></p>
-    <div class="hist-list" id="parados-list"></div>
-    <div class="modal-btns" style="justify-content:flex-end;">
-      <button class="btn-cancel" onclick="fecharModalParados()">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL TAGS -->
-<div class="modal-overlay" id="modalTags">
-  <div class="modal" style="text-align:left;width:420px;">
-    <h3 style="margin-bottom:4px;">🏷️ Etiquetas</h3>
-    <p id="tag-cliente-nome" style="font-size:13px;color:var(--sky);margin-bottom:14px;"></p>
-    <div id="tag-lista-atual" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;min-height:24px;"></div>
-    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
-      <input id="tag-input" type="text" placeholder="Nova etiqueta..." maxlength="24"
-        style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none;"
-        onkeydown="if(event.key==='Enter')window._g6.adicionarTag()">
-      <button onclick="window._g6.adicionarTag()" class="btn-add" style="height:36px;padding:0 16px;font-size:12px;">+ Add</button>
-    </div>
-    <div id="tag-sugestoes" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;"></div>
-    <div class="modal-btns" style="justify-content:flex-end;">
-      <button class="btn-cancel" onclick="fecharModalTags()">Fechar</button>
     </div>
   </div>
 </div>
@@ -536,7 +471,6 @@ let tagIndex        = null;   // ← índice do cliente editando tags
 let sortCol         = null;
 let sortDir         = 1;
 let diasParadoAlerta = 7;
-let dragSrcIdx      = null;
 
 /* ═══════════════════════════════════════════
    UTILITÁRIOS
@@ -616,9 +550,9 @@ onValue(clientesRef, (snapshot) => {
   clientes = data ? Object.values(data).map(normalizeCliente) : [];
   // rebuild tag color map
   clientes.forEach(c=>(c.tags||[]).forEach(t=>corDaTag(t)));
-  render(); renderCaixa(); renderFinalizados(); atualizarTagFilterBar();
+  render(); renderCaixa(); renderFinalizados();
   setStatus("✓ Sincronizado","ok");
-  if(primeiroCarregamento){ primeiroCarregamento=false; verificarParados(); }
+  if(primeiroCarregamento){ primeiroCarregamento=false; }
 }, () => setStatus("⚠ Sem conexão","err"));
 
 function salvar() {
@@ -649,12 +583,11 @@ function obterLinkRegistro(r){
 function adicionarCliente(){
   const n=document.getElementById("nome"), p=document.getElementById("parceiro"),
         r=document.getElementById("retorno"), v=document.getElementById("valor"),
-        vi=document.getElementById("valorImovel"), pr=document.getElementById("prazoInput");
+        vi=document.getElementById("valorImovel");
   if(!n.value.trim()){ n.focus(); return; }
   clientes.push({
     nome:n.value.trim(), parceiro:p.value.trim(), retorno:r.value,
     valor:v.value.trim(), valorImovel:vi.value.trim(),
-    prazo:pr.value||"",
     status:"", bancos:[], etapa:0,
     registro:"", login:"", senha:"", proposta:"",
     registroSalvo:false, statusHistory:[], nota:"",
@@ -663,7 +596,7 @@ function adicionarCliente(){
     ultimaAtualizacao:new Date().toISOString(),
     propostasBanco:{}
   });
-  n.value=""; p.value=""; v.value=""; vi.value=""; pr.value=""; r.value="aprovado";
+  n.value=""; p.value=""; v.value=""; vi.value=""; r.value="aprovado";
   salvar(); toast("✅ Cliente adicionado");
 }
 
@@ -839,7 +772,9 @@ window.toggleFiltroTag=toggleFiltroTag;
 function finalizarCliente(i){
   clientes[i].finalizado = true;
   clientes[i].dataFinalizacao = new Date().toISOString();
-  salvar(); toast("✅ Cliente finalizado");
+  salvar();
+  toast("✅ Cliente finalizado");
+  trocarAba('finalizados', document.getElementById('tab-btn-finalizados'));
 }
 function reativarCliente(i){
   clientes[i].finalizado = false;
@@ -858,7 +793,6 @@ function renderFinalizados(){
     lista.forEach(c=>renderLinhaFinalizado(c, clientes.indexOf(c), tbody));
   }
   document.getElementById('fin-total').innerText=lista.length;
-  document.getElementById('fin-aprovados').innerText=lista.filter(c=>c.retorno==='aprovado').length;
   const ultimo=lista.filter(c=>c.dataFinalizacao).sort((a,b)=>new Date(b.dataFinalizacao)-new Date(a.dataFinalizacao))[0];
   document.getElementById('fin-ultimo').innerText=ultimo?formatarData(ultimo.dataFinalizacao):'—';
 }
@@ -872,13 +806,12 @@ function renderLinhaFinalizado(c, i, tbody){
   row.innerHTML=`
     <td style="font-weight:600;text-align:left;">
       <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-        <span>${c.nome}</span>${c.nota?'<span class="nota-dot"></span>':''}
+        <span>${c.nome}</span>
       </div>
       <div class="meta-info">
         ${c.dataCadastro?`<span class="meta-chip meta-entrada">📅 ${formatarData(c.dataCadastro)}</span>`:''}
         ${c.dataFinalizacao?`<span class="meta-chip" style="background:rgba(74,222,128,.1);color:#4ade80;">✅ ${formatarData(c.dataFinalizacao)}</span>`:''}
       </div>
-      ${renderTagsInline(c.tags)}
     </td>
     <td style="color:var(--muted)">${c.parceiro||'—'}</td>
     <td><select class="select-table retorno-select ${c.retorno}" disabled><option>✅ Aprovado</option><option>⚠️ Condicionado</option><option>❌ Reprovado</option></select></td>
@@ -1024,27 +957,9 @@ window.exportarCSV=exportarCSV;
    DRAG AND DROP (pipeline de etapas)
 ════════════════════════════════════════════ */
 function setupDragRow(row, idx){
-  row.draggable = true;
-  row.ondragstart = e => {
-    dragSrcIdx = idx;
-    row.classList.add('drag-row');
-    e.dataTransfer.effectAllowed = 'move';
-  };
-  row.ondragend = () => { row.classList.remove('drag-row'); };
 }
 
 function setupDragStep(stepEl, etapaIdx){
-  stepEl.ondragover = e => { e.preventDefault(); stepEl.classList.add('drag-over'); };
-  stepEl.ondragleave = () => stepEl.classList.remove('drag-over');
-  stepEl.ondrop = e => {
-    e.preventDefault(); stepEl.classList.remove('drag-over');
-    if(dragSrcIdx===null) return;
-    clientes[dragSrcIdx].etapa = etapaIdx;
-    clientes[dragSrcIdx].etapaDesde = new Date().toISOString();
-    clientes[dragSrcIdx].ultimaAtualizacao = new Date().toISOString();
-    dragSrcIdx=null;
-    salvar(); toast(`⇒ Movido para ${etapas[etapaIdx]}`);
-  };
 }
 
 /* ═══════════════════════════════════════════
@@ -1084,13 +999,10 @@ function renderLinha(c, i, tbody){
     <td style="font-weight:600;text-align:left;min-width:140px;">
       <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
         <span>${c.nome}</span>
-        ${c.nota?'<span class="nota-dot" title="Tem observação"></span>':''}
       </div>
       <div class="meta-info">
         ${c.dataCadastro?`<span class="meta-chip meta-entrada" title="Data de entrada">📅 ${formatarData(c.dataCadastro)}</span>`:''}
-        ${c.prazo?prazoBadge(c.prazo):''}
       </div>
-      ${renderTagsInline(c.tags)}
       ${etapas[c.etapa]==="Registro"?`<div><span onclick="window._g6.toggleRegistro(${i})" style="font-size:11px;font-weight:400;color:${c.registroAberto?'var(--sky)':'var(--muted)'};cursor:pointer;letter-spacing:.3px;">📄 ${c.registroAberto?'fechar':'ver registro'}</span></div>`:''}
     </td>
     <td style="color:var(--muted)">${c.parceiro||'—'}</td>
@@ -1114,20 +1026,12 @@ function renderLinha(c, i, tbody){
     <td>
       <span class="badge-etapa etapa-${c.etapa}">${etapas[c.etapa]}</span>
       <div>${diasBadge(dEtapa)}</div>
-      <div style="margin-top:4px;">
-        <input type="date" value="${c.prazo||''}" onchange="window._g6.alterarPrazo(${i},this.value)"
-          style="background:transparent;border:none;border-bottom:1px dashed var(--border);color:var(--muted);font-family:inherit;font-size:10px;outline:none;cursor:pointer;width:100px;"
-          title="Prazo/vencimento">
-      </div>
     </td>
     <td>${renderBancos(i, bancosAtivos, props)}</td>
     <td>
       <div class="actions">
-        <button class="btn-icon btn-drag"   data-tip="Arrastar" style="cursor:grab;">⠿</button>
         <button class="btn-icon btn-prev"   data-tip="Voltar"      onclick="window._g6.voltar(${i})">←</button>
         <button class="btn-icon btn-next"   data-tip="Avançar"     onclick="window._g6.avancar(${i})">→</button>
-        <button class="btn-icon btn-note"   data-tip="Observações" onclick="window._g6.abrirNota(${i})">📝</button>
-        <button class="btn-icon"            data-tip="Etiquetas"   onclick="window._g6.abrirModalTags(${i})" style="background:rgba(56,189,248,.12);color:var(--sky);font-size:12px;">🏷️</button>
         <button class="btn-icon"            data-tip="Finalizar"   onclick="window._g6.finalizarCliente(${i})" style="background:rgba(74,222,128,.12);color:#4ade80;font-size:12px;">✅</button>
         <button class="btn-icon btn-delete" data-tip="Excluir"     onclick="window._g6.pedirExclusao(${i})">✕</button>
       </div>
@@ -1208,13 +1112,9 @@ function atualizarPipeline(){
   const ativos=clientes.filter(c=>!c.finalizado);
   etapas.forEach((e,i)=>{
     const total   = ativos.filter(c=>c.etapa===i).length;
-    const comDias = ativos.filter(c=>c.etapa===i && c.etapaDesde);
-    const media   = comDias.length
-      ? Math.round(comDias.reduce((acc,c)=>acc+diasDesde(c.etapaDesde),0)/comDias.length)
-      : null;
     const d=document.createElement("div");
     d.className=`step${filtroEtapa===i?' active':''}`;
-    d.innerHTML=`<strong>${total}</strong>${e}${media!==null?'<br>'+diasBadge(media):''}`;
+    d.innerHTML=`<strong>${total}</strong>${e}`;
     d.onclick=e2=>{ if(e2.target===d||e2.target.tagName==='STRONG'||e2.target.tagName==='SPAN'){ filtroEtapa=filtroEtapa===i?null:i; render(); }};
     setupDragStep(d, i);
     pipe.appendChild(d);
@@ -1282,6 +1182,21 @@ window.filtrarBusca=function(termo){
 };
 window.irParaCliente=function(i){
   document.getElementById('busca-box').style.display='none';
+  if(clientes[i] && clientes[i].finalizado){
+    trocarAba('finalizados', document.getElementById('tab-btn-finalizados'));
+    renderFinalizados();
+    setTimeout(()=>{
+      const linhas=document.querySelectorAll('#fin-tabela tr');
+      for(const l of linhas){
+        if(l.textContent.includes(clientes[i].nome)){
+          l.scrollIntoView({behavior:'smooth',block:'center'});
+          l.style.transition='background .3s'; l.style.background='rgba(74,222,128,.12)';
+          setTimeout(()=>l.style.background='',2000); break;
+        }
+      }
+    },120);
+    return;
+  }
   trocarAba('geral', document.querySelectorAll('.tab-btn')[0]);
   filtroEtapa=null; filtroRetorno=null;
   ['aprovado','condicionado','reprovado'].forEach(r=>{document.getElementById('fb-'+r).className='filter-btn';});
@@ -1317,7 +1232,7 @@ window._g6={
   adicionarCliente, pedirExclusao, fecharModal, confirmarExclusao,
   avancar, voltar, alterarRetorno, alterarStatus, alterarPrazo,
   toggleBanco, alterarPropostaBanco, alterarCampoRegistro, toggleRegistro,
-  copiar, abrirNota, abrirHistorico
+  copiar, abrirHistorico, finalizarCliente, reativarCliente
 };
 
 document.getElementById("btn-add-geral").onclick=adicionarCliente;
