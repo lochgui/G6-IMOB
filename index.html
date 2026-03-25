@@ -1,487 +1,466 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0049)file:///C:/Users/user/Downloads/crm-pipeline.html -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <title>G6 Imobiliário</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-:root {
-  --bg:#0b1120; --surface:#131c2e; --surface2:#1a2640; --border:#1e3050;
-  --text:#e2e8f0; --muted:#64748b; --sky:#38bdf8; --green:#22c55e;
-  --yellow:#facc15; --red:#ef4444; --radius:12px;
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
 }
-body { margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
 
-header { display:flex; align-items:center; gap:14px; padding:24px 32px 0; margin-bottom:16px; }
-header .logo { width:42px; height:42px; background:linear-gradient(135deg,var(--sky),#0ea5e9); border-radius:10px; display:grid; place-items:center; font-size:20px; box-shadow:0 0 20px rgba(56,189,248,.25); }
-header h1 { font-size:22px; font-weight:700; letter-spacing:-.3px; }
-header span { color:var(--muted); font-size:13px; margin-top:2px; display:block; }
+.container { padding: 30px; }
 
-.tabs { display:flex; gap:8px; padding:0 32px; margin-bottom:20px; }
-.tab-btn { padding:9px 22px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
-.tab-btn:hover { color:var(--text); border-color:#2d4a70; }
-.tab-btn.active { background:rgba(56,189,248,.1); border-color:var(--sky); color:var(--sky); }
-.tab-btn.caixa-tab.active { background:rgba(0,91,158,.15); border-color:#4da6ff; color:#4da6ff; }
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
 
-.container { padding:0 32px 40px; }
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+}
 
-.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
-.card { background:var(--surface); border:1px solid var(--border); padding:20px 22px; border-radius:var(--radius); display:flex; align-items:center; gap:16px; transition:border-color .2s; }
-.card:hover { border-color:#2d4a70; }
-.card-icon { width:42px; height:42px; border-radius:10px; display:grid; place-items:center; font-size:18px; flex-shrink:0; }
-.card-icon.blue  { background:rgba(56,189,248,.12); }
-.card-icon.green { background:rgba(34,197,94,.12); }
-.card-icon.amber { background:rgba(251,191,36,.12); }
-.card-info { display:flex; flex-direction:column; gap:2px; }
-.card-label { font-size:12px; color:var(--muted); font-weight:500; text-transform:uppercase; letter-spacing:.5px; }
-.card-value { font-size:28px; font-weight:700; line-height:1; }
-.card-value.blue  { color:var(--sky); }
-.card-value.green { color:var(--green); }
-.card-value.amber { color:var(--yellow); }
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+}
 
-.pipeline { display:grid; grid-template-columns:repeat(9,1fr); gap:8px; margin-bottom:24px; }
-.step { background:var(--surface); border:1px solid var(--border); padding:10px 8px; border-radius:10px; text-align:center; cursor:pointer; transition:all .2s; font-size:12px; color:var(--muted); user-select:none; }
-.step:hover { border-color:var(--sky); color:var(--text); transform:translateY(-1px); }
-.step.active { border-color:var(--sky); background:rgba(56,189,248,.08); color:var(--sky); }
-.step strong { display:block; font-size:20px; font-weight:700; color:var(--text); margin-bottom:2px; }
-.step.active strong { color:var(--sky); }
-.step.clear { background:var(--surface2); color:var(--muted); font-size:11px; }
-.step.clear:hover { color:var(--text); }
+.step {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
 
-.form-box { background:var(--surface); border:1px solid var(--border); padding:22px 24px; border-radius:var(--radius); margin-bottom:20px; }
-.form-box h3 { font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:16px; }
-.form-grid { display:grid; grid-template-columns:2fr 2fr 1.5fr 1.5fr 1.5fr auto; gap:10px; align-items:end; }
-.form-grid label { display:flex; flex-direction:column; gap:5px; font-size:12px; color:var(--muted); }
-.form-grid input, .form-grid select { padding:9px 12px; border-radius:8px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; width:100%; }
-.form-grid input:focus, .form-grid select:focus { border-color:var(--sky); }
-.btn-add { padding:10px 20px; background:var(--sky); color:#0b1120; border:none; border-radius:8px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; transition:opacity .2s,transform .1s; height:38px; }
-.btn-add:hover { opacity:.9; transform:translateY(-1px); }
+.step.active {
+  border: 2px solid #38bdf8;
+}
 
-.table-box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
-table { width:100%; border-collapse:collapse; text-align:center; font-size:13.5px; }
-thead { background:var(--surface2); }
-th { padding:13px 14px; color:var(--muted); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid var(--border); }
-tbody tr { border-bottom:1px solid var(--border); transition:background .15s; }
-tbody tr:last-child { border-bottom:none; }
-tbody tr:hover { background:rgba(255,255,255,.02); }
-tbody tr.row-aprovado    { border-left:3px solid var(--green); }
-tbody tr.row-condicionado { border-left:3px solid var(--yellow); }
-tbody tr.row-reprovado   { border-left:3px solid var(--red); }
-td { padding:11px 14px; vertical-align:middle; }
+.form-box {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
 
-.table-input { width:100%; background:transparent; color:var(--text); border:1px solid transparent; border-radius:6px; padding:5px 8px; text-align:center; font-family:inherit; font-size:13px; outline:none; transition:border-color .2s; }
-.table-input:focus { border-color:var(--border); background:var(--bg); }
-.select-table { background:transparent; color:var(--text); border:1px solid transparent; border-radius:6px; padding:5px 8px; font-family:inherit; font-size:13px; outline:none; cursor:pointer; transition:border-color .2s; }
-.select-table:hover, .select-table:focus { border-color:var(--border); background:var(--bg); }
-.retorno-select { font-weight:600; font-size:12px; text-align:center; width:140px; }
-.retorno-select.aprovado     { color:var(--green); }
-.retorno-select.condicionado { color:var(--yellow); }
-.retorno-select.reprovado    { color:var(--red); }
-.badge-etapa { display:inline-block; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; background:var(--surface2); color:var(--muted); border:1px solid var(--border); white-space:nowrap; }
+input, select {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  border: none;
+}
 
-.actions { display:flex; gap:6px; justify-content:center; }
-.btn-icon { width:32px; height:32px; border:none; border-radius:8px; cursor:pointer; font-size:14px; display:grid; place-items:center; transition:all .15s; position:relative; }
-.btn-next   { background:rgba(34,197,94,.15); color:var(--green); }
-.btn-delete { background:rgba(239,68,68,.15); color:var(--red); }
-.btn-prev   { background:rgba(56,189,248,.15); color:var(--sky); }
-.btn-next:hover   { background:var(--green); color:#fff; transform:scale(1.1); }
-.btn-delete:hover { background:var(--red);   color:#fff; transform:scale(1.1); }
-.btn-prev:hover   { background:var(--sky);   color:#fff; transform:scale(1.1); }
-.btn-icon::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; }
-.btn-icon:hover::after { opacity:1; }
+button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-.bancos-grid { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; }
-.banco-btn { display:flex; flex-direction:column; align-items:center; gap:2px; padding:3px 5px; border-radius:6px; border:1.5px solid transparent; cursor:pointer; background:var(--surface2); transition:all .18s; opacity:.35; filter:grayscale(1); min-width:36px; }
-.banco-btn:hover { opacity:.7; filter:grayscale(0); transform:translateY(-1px); }
-.banco-btn.ativo { opacity:1; filter:grayscale(0); transform:translateY(-1px); }
-.banco-btn .banco-logo { width:22px; height:22px; border-radius:4px; display:grid; place-items:center; overflow:hidden; background:#fff; }
-.banco-btn .banco-logo img { width:100%; height:100%; object-fit:contain; }
-.banco-btn .banco-nome { font-size:8px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.3px; }
-.banco-btn.ativo .banco-nome { color:var(--text); }
-.banco-btn[data-banco="Bradesco"].ativo { border-color:#cc092f; background:rgba(204,9,47,.1); }
-.banco-btn[data-banco="Itaú"].ativo { border-color:#ec7000; background:rgba(236,112,0,.1); }
-.banco-btn[data-banco="Santander"].ativo { border-color:#ec0000; background:rgba(236,0,0,.1); }
-.banco-btn[data-banco="Inter"].ativo { border-color:#ff7a00; background:rgba(255,122,0,.1); }
-.banco-btn[data-banco="Caixa"].ativo { border-color:#005b9e; background:rgba(0,91,158,.1); }
+.add { background: #38bdf8; }
+.delete { background: #ef4444; color: white; }
+.next { background: #22c55e; }
 
-.registro-box { background:var(--bg); border:1px solid var(--border); padding:14px 18px; border-radius:10px; text-align:left; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.registro-box b { color:var(--sky); font-size:13px; }
-.registro-box select { padding:7px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; }
-.registro-credenciais { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-.cred-field { display:flex; flex-direction:column; gap:4px; }
-.cred-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.4px; }
-.cred-wrap { display:flex; align-items:center; gap:4px; }
-.cred-input { padding:6px 10px; border-radius:7px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-family:inherit; font-size:13px; outline:none; width:140px; transition:border-color .2s; }
-.cred-input:focus { border-color:var(--sky); }
-.cred-copy { width:28px; height:28px; border:1px solid var(--border); border-radius:7px; background:var(--surface2); color:var(--text); cursor:pointer; font-size:13px; display:grid; place-items:center; transition:all .15s; position:relative; }
-.cred-copy:hover { border-color:var(--sky); background:rgba(56,189,248,.1); transform:scale(1.1); }
-.cred-copy::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; }
-.cred-copy:hover::after { opacity:1; }
-.btn-registro-link { padding:7px 14px; background:rgba(56,189,248,.15); color:var(--sky); border:1px solid rgba(56,189,248,.3); border-radius:7px; font-family:inherit; font-size:13px; font-weight:600; cursor:pointer; text-decoration:none; transition:background .2s; display:inline-flex; align-items:center; gap:6px; }
-.btn-registro-link:hover { background:rgba(56,189,248,.25); }
+.table-box {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 20px;
+}
 
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:100; place-items:center; }
-.modal-overlay.open { display:grid; }
-.modal { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:28px 32px; width:360px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.5); animation:pop .15s ease; }
-@keyframes pop { from{transform:scale(.95);opacity:0} to{transform:scale(1);opacity:1} }
-.modal h3 { font-size:17px; margin-bottom:8px; }
-.modal p  { color:var(--muted); font-size:14px; margin-bottom:24px; }
-.modal-btns { display:flex; gap:10px; justify-content:center; }
-.modal-btns button { padding:9px 24px; border-radius:8px; border:none; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; transition:opacity .2s; }
-.modal-btns button:hover { opacity:.85; }
-.btn-cancel  { background:var(--surface2); color:var(--text); }
-.btn-confirm { background:var(--red); color:#fff; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
 
-.caixa-info { background:rgba(0,91,158,.1); border:1px solid rgba(77,166,255,.3); border-radius:10px; padding:12px 18px; margin-bottom:20px; font-size:13px; color:#4da6ff; display:flex; align-items:center; gap:8px; }
-.empty { padding:48px 20px; text-align:center; color:var(--muted); }
-.empty .empty-icon { font-size:36px; margin-bottom:12px; }
-.empty p { font-size:14px; }
+th, td {
+  padding: 12px;
+}
+
+th {
+  color: #94a3b8;
+  border-bottom: 1px solid #334155;
+}
+
+.table-input {
+  width: 100%;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 6px;
+  text-align: center;
+}
+
+.select-table {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.retorno-select {
+  width: 120px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.aprovado { color: #22c55e; }
+.condicionado { color: #facc15; }
+.reprovado { color: #ef4444; }
+
+.registro-box {
+  background: #020617;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: left;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <svg width="340" height="75" viewBox="0 0 340 75" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#1a6fc4"/>
-        <stop offset="100%" stop-color="#0d4a8a"/>
-      </linearGradient>
-      <linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#e8890a"/>
-        <stop offset="100%" stop-color="#c46a00"/>
-      </linearGradient>
-    </defs>
-    <g transform="translate(0, 8)">
-      <rect x="0" y="22" width="48" height="36" rx="3" fill="url(#lg1)"/>
-      <polygon points="24,2 54,24 -6,24" fill="url(#lg2)"/>
-      <rect x="18" y="34" width="12" height="24" rx="2" fill="white" opacity="0.9"/>
-      <text x="62" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="-1">G6</text>
-      <line x1="112" y1="18" x2="112" y2="54" stroke="#c8d8ea" stroke-width="1.2"/>
-      <text x="122" y="46" font-family="Georgia, serif" font-size="26" font-weight="700" fill="#1a6fc4" letter-spacing="2">IMOBILIÁRIO</text>
-      </g>
-  </svg>
-  <div id="status-bar" style="display:none;margin-left:auto;padding:5px 14px;border-radius:8px;font-size:12px;font-weight:600;"></div>
-  <div style="margin-left:auto;position:relative;">
-    <button id="btn-lupa" onclick="toggleBusca()" style="width:44px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:all .2s;" onmouseover="this.style.borderColor='var(--sky)';this.style.color='var(--sky)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">🔍</button>
-    <div id="busca-box" style="display:none;position:absolute;right:0;top:44px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px;width:280px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:50;">
-      <input id="busca-input" type="text" placeholder="Buscar cliente..." oninput="filtrarBusca(this.value)" style="width:100%;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-family:inherit;font-size:13px;outline:none;">
-      <div id="busca-resultados" style="margin-top:8px;max-height:200px;overflow-y:auto;"></div>
+<div class="container">
+  <h1>🏦 G6 Imobiliário</h1>
+
+  <div class="cards">
+    <div class="card">Clientes: <strong id="totalClientes">0</strong></div>
+    <div class="card">Aprovados: <strong id="totalAprovados">0</strong></div>
+    <div class="card">Contratação: <strong id="totalContratacao">0</strong></div>
+  </div>
+
+  <div class="pipeline" id="pipeline">
+      <div class="step " onclick="filtrarEtapa(0)">
+        Atendido<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(1)">
+        Aprovado<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(2)">
+        Contratação<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(3)">
+        Engenharia<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(4)">
+        Jurídico<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(5)">
+        Assinatura<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(6)">
+        Registro<br><strong>0</strong>
+      </div>
+    
+      <div class="step " onclick="filtrarEtapa(7)">
+        Pagamento<br><strong>0</strong>
+      </div>
+    
+    <div class="step" onclick="limparFiltro()" style="background:#334155;">
+      Ver Todos
     </div>
   </div>
-</header>
 
-<div class="tabs">
-  <button class="tab-btn active" onclick="trocarAba('geral',this)">🏦 Geral</button>
-  <button class="tab-btn caixa-tab" onclick="trocarAba('caixa',this)">🏛️ Caixa</button>
-</div>
-
-<div id="tab-geral" class="tab-panel active">
-<div class="container">
-  <div class="cards">
-    <div class="card"><div class="card-icon blue">👥</div><div class="card-info"><span class="card-label">Total de Clientes</span><span class="card-value blue" id="totalClientes">0</span></div></div>
-    <div class="card"><div class="card-icon green">✅</div><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="totalAprovados">0</span></div></div>
-    <div class="card"><div class="card-icon amber">📝</div><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="totalContratacao">0</span></div></div>
-  </div>
-  <div class="pipeline" id="pipeline"></div>
   <div class="form-box">
     <h3>Adicionar Cliente</h3>
-    <div class="form-grid">
-      <label>Nome<input id="nome" placeholder="Nome completo"></label>
-      <label>Parceiro<input id="parceiro" placeholder="Parceiro"></label>
-      <label>Retorno"><select id="retorno"><option value="aprovado">Aprovado</option><option value="condicionado">Condicionado</option><option value="reprovado">Reprovado</option></select></label>
-      <label>Financiamento<input id="valor" placeholder="R$ 0,00"></label>
-      <label>Valor Imóvel<input id="valorImovel" placeholder="R$ 0,00"></label>
-      <button class="btn-add" id="btn-add-geral">+ Adicionar</button>
-    </div>
+
+    <input id="nome" placeholder="Nome">
+    <input id="parceiro" placeholder="Parceiro">
+
+    <select id="retorno">
+      <option value="aprovado">Aprovado</option>
+      <option value="condicionado">Condicionado</option>
+      <option value="reprovado">Reprovado</option>
+    </select>
+
+    <input id="valor" placeholder="Valor do financiamento (R$)">
+
+    <select id="bancos">
+      <option value="Bradesco">Bradesco</option>
+      <option value="Itaú">Itaú</option>
+      <option value="Santander">Santander</option>
+      <option value="Inter">Inter</option>
+      <option value="Caixa">Caixa</option>
+    </select>
+
+    <button class="add" onclick="adicionarCliente()">Adicionar</button>
   </div>
+
   <div class="table-box">
     <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos Aprovados</th><th>Ações</th></tr></thead>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Parceiro</th>
+          <th>Retorno</th>
+          <th>Valor</th>
+          <th>Status</th>
+          <th>Etapa</th>
+          <th>Bancos</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
       <tbody id="tabela"></tbody>
     </table>
   </div>
 </div>
-</div>
 
-<div id="tab-caixa" class="tab-panel">
-<div class="container">
-  <div class="caixa-info">🏛️ Esta aba mostra automaticamente todos os clientes que têm a <strong>Caixa</strong> selecionada.</div>
-  <div class="cards">
-    <div class="card"><div class="card-icon blue">👥</div><div class="card-info"><span class="card-label">Clientes Caixa</span><span class="card-value blue" id="cx-totalClientes">0</span></div></div>
-    <div class="card"><div class="card-icon green">✅</div><div class="card-info"><span class="card-label">Aprovados</span><span class="card-value green" id="cx-totalAprovados">0</span></div></div>
-    <div class="card"><div class="card-icon amber">📝</div><div class="card-info"><span class="card-label">Em Contratação</span><span class="card-value amber" id="cx-totalContratacao">0</span></div></div>
-  </div>
-  <div class="pipeline" id="cx-pipeline"></div>
-  <div class="table-box">
-    <table>
-      <thead><tr><th>Nome</th><th>Parceiro</th><th>Retorno</th><th>Financiamento</th><th>Valor Imóvel</th><th>Status</th><th>Etapa</th><th>Bancos Aprovados</th><th>Ações</th></tr></thead>
-      <tbody id="cx-tabela"></tbody>
-    </table>
-  </div>
-</div>
-</div>
+<script>
+const etapas = [
+  "Atendido",
+  "Aprovado",
+  "Contratação",
+  "Engenharia",
+  "Jurídico",
+  "Assinatura",
+  "Registro",
+  "Pagamento"
+];
 
-<div class="modal-overlay" id="modalOverlay"><div class="modal"><h3>⚠️ Excluir cliente?</h3><p>Essa ação não pode ser desfeita.</p><div class="modal-btns"><button class="btn-cancel" id="btn-cancel">Cancelar</button><button class="btn-confirm" id="btn-confirm">Excluir</button></div></div></div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
-  authDomain: "g6-imob-5f6d9.firebaseapp.com",
-  databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
-  projectId: "g6-imob-5f6d9",
-  storageBucket: "g6-imob-5f6d9.firebasestorage.app",
-  messagingSenderId: "553843254567",
-  appId: "1:553843254567:web:a23b85b852fab7ec297502"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const clientesRef = ref(db, "clientes");
-
-const etapas = ["Atendido","Aprovado","Contratação","Engenharia","Jurídico","Assinatura","Registro","Pagamento"];
-const todosBancos = ["Bradesco","Itaú","Santander","Inter","Caixa"];
-let clientes = [];
+let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
 let filtroEtapa = null;
-let cxFiltroEtapa = null;
-let indexParaExcluir = null;
-
-function setStatus(msg, cor) {
-  const el = document.getElementById("status-bar");
-  if (!el) return;
-  el.textContent = msg;
-  el.style.background = cor==="ok"?"rgba(34,197,94,.15)":cor==="err"?"rgba(239,68,68,.15)":"rgba(251,191,36,.15)";
-  el.style.color = cor==="ok"?"#22c55e":cor==="err"?"#ef4444":"#facc15";
-  el.style.display = "block";
-  if (cor==="ok") setTimeout(()=>el.style.display="none", 2000);
-}
-
-onValue(clientesRef, (snapshot) => {
-  const data = snapshot.val();
-  clientes = data ? Object.values(data) : [];
-  clientes = clientes.map(c => {
-    if (!Array.isArray(c.bancos)) c.bancos = c.bancos ? [c.bancos] : [];
-    return c;
-  });
-  render(); renderCaixa();
-  setStatus("✓ Sincronizado","ok");
-}, () => setStatus("⚠ Sem conexão","err"));
 
 function salvar() {
-  const obj = {};
-  clientes.forEach((c,i) => { obj[i] = c; });
-  set(clientesRef, obj).then(()=>setStatus("✓ Salvo","ok")).catch(()=>setStatus("⚠ Erro ao salvar","err"));
+  localStorage.setItem("clientes", JSON.stringify(clientes));
 }
 
-// ATUALIZAÇÃO: Links dos cartórios 1 a 5
-function obterLinkRegistro(r){
-  const links = {
-    "1": "https://1riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "2": "https://2riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "3": "https://3riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "4": "https://4riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online",
-    "5": "https://5riflorianopolis-sc.sistemaasgard.com.br/app/v1/#/acompanhamento-online"
+function adicionarCliente() {
+  const cliente = {
+    nome: nome.value,
+    parceiro: parceiro.value,
+    retorno: retorno.value,
+    valor: valor.value,
+    status: "",
+    bancos: bancos.value,
+    etapa: 0,
+
+    // REGISTRO
+    registro: "",
+    formato: "",
+    solicitante: "",
+    login: "",
+    senha: "",
+    responsavel: "",
+    registroSalvo: false
   };
-  return links[r] || "";
-}
 
-function adicionarCliente(){
-  const n=document.getElementById("nome"), p=document.getElementById("parceiro"), r=document.getElementById("retorno"), v=document.getElementById("valor"), vi=document.getElementById("valorImovel");
-  if(!n.value.trim()){ n.focus(); return; }
-  clientes.push({ nome:n.value.trim(), parceiro:p.value.trim(), retorno:r.value, valor:v.value.trim(), valorImovel:vi.value.trim(), status:"", bancos:[], etapa:0, registro:"", login:"", senha:"", proposta:"", registroSalvo:false });
-  n.value=""; p.value=""; v.value=""; vi.value=""; r.value="aprovado";
+  clientes.push(cliente);
   salvar();
+  render();
 }
 
-function pedirExclusao(i){ indexParaExcluir=i; document.getElementById("modalOverlay").classList.add("open"); }
-function fecharModal(){ indexParaExcluir=null; document.getElementById("modalOverlay").classList.remove("open"); }
-function confirmarExclusao(){ if(indexParaExcluir!==null){ clientes.splice(indexParaExcluir,1); salvar(); } fecharModal(); }
-function avancar(i){ if(clientes[i].etapa<etapas.length-1){ clientes[i].etapa++; salvar(); }}
-function voltar(i){ if(clientes[i].etapa>0){ clientes[i].etapa--; salvar(); }}
-function alterarRetorno(i,v){ clientes[i].retorno=v; salvar(); }
-function alterarStatus(i,v){ clientes[i].status=v; clientes[i].statusData = v ? new Date().toLocaleDateString('pt-BR') : ''; salvar(); }
-function toggleBanco(i,banco){ const idx=clientes[i].bancos.indexOf(banco); if(idx===-1) clientes[i].bancos.push(banco); else clientes[i].bancos.splice(idx,1); salvar(); }
-function alterarCampoRegistro(i,campo,v){ clientes[i][campo]=v; salvar(); }
-function toggleRegistro(i){ clientes[i].registroAberto = !clientes[i].registroAberto; render(); }
-function filtrarEtapa(i){ filtroEtapa=i; render(); }
-function limparFiltro(){ filtroEtapa=null; render(); }
-function cxFiltrarEtapa(i){ cxFiltroEtapa=i; renderCaixa(); }
-function cxLimparFiltro(){ cxFiltroEtapa=null; renderCaixa(); }
-
-function copiar(texto, btn) {
-  navigator.clipboard.writeText(texto).then(() => {
-    const orig = btn.textContent;
-    btn.textContent='✅'; btn.style.color='var(--green)';
-    setTimeout(()=>{ btn.textContent=orig; btn.style.color=''; }, 1500);
-  });
+function excluir(i) {
+  clientes.splice(i, 1);
+  salvar();
+  render();
 }
 
-const bancosLogos = {
-  "Bradesco": "https://www.google.com/s2/favicons?domain=bradesco.com.br&sz=64",
-  "Itaú":     "https://www.google.com/s2/favicons?domain=itau.com.br&sz=64",
-  "Santander":"https://www.google.com/s2/favicons?domain=santander.com.br&sz=64",
-  "Inter":    "https://www.google.com/s2/favicons?domain=inter.co&sz=64",
-  "Caixa":    "https://www.google.com/s2/favicons?domain=caixa.gov.br&sz=64"
-};
-
-function renderBancos(i, bancosAtivos) {
-  return todosBancos.map(b=>`
-    <button class="banco-btn ${bancosAtivos.includes(b)?'ativo':''}" data-banco="${b}" onclick="window._g6.toggleBanco(${i},'${b}')">
-      <span class="banco-logo"><img src="${bancosLogos[b]}" alt="${b}" onerror="this.parentElement.innerHTML='<span style=font-size:9px;font-weight:800;color:#fff>${b.substring(0,2)}</span>';this.parentElement.style.background='#334155'"></span>
-      <span class="banco-nome">${b}</span>
-    </button>`).join('');
-}
-
-function renderLinha(c, i, tbody) {
-  const bancosAtivos = Array.isArray(c.bancos) ? c.bancos : [];
-  const row = document.createElement("tr");
-  row.className = `row-${c.retorno}`;
-  row.innerHTML = `
-    <td style="font-weight:600">
-      ${c.nome}
-      ${etapas[c.etapa]==="Registro" ? `<br><span onclick="window._g6.toggleRegistro(${i})" style="font-size:11px;font-weight:400;color:${c.registroAberto?'var(--sky)':'var(--muted)'};cursor:pointer;letter-spacing:.3px;">📄 ${c.registroAberto?'fechar registro':'ver registro'}</span>` : ''}
-    </td>
-    <td style="color:var(--muted)">${c.parceiro||'—'}</td>
-    <td>
-      <select onchange="window._g6.alterarRetorno(${i},this.value)" class="select-table retorno-select ${c.retorno}">
-        <option value="aprovado" ${c.retorno==="aprovado"?"selected":""}>✅ Aprovado</option>
-        <option value="condicionado" ${c.retorno==="condicionado"?"selected":""}>⚠️ Condicionado</option>
-        <option value="reprovado" ${c.retorno==="reprovado"?"selected":""}>❌ Reprovado</option>
-      </select>
-    </td>
-    <td>R$ ${c.valor||'—'}</td>
-    <td>R$ ${c.valorImovel||'—'}</td>
-    <td>
-      ${etapas[c.etapa]==="Registro" ? `<span style="font-size:11px;color:var(--muted);font-style:italic;">ver registro</span>` : `<input class="table-input" value="${c.status||''}" placeholder="—" onchange="window._g6.alterarStatus(${i},this.value)">${c.statusData ? `<div style="font-size:10px;color:var(--muted);margin-top:2px;">${c.statusData}</div>` : ''}`}
-    </td>
-    <td><span class="badge-etapa">${etapas[c.etapa]}</span></td>
-    <td><div class="bancos-grid">${renderBancos(i, bancosAtivos)}</div></td>
-    <td><div class="actions"><button class="btn-icon btn-prev" data-tip="Voltar" onclick="window._g6.voltar(${i})">←</button><button class="btn-icon btn-next" data-tip="Avançar" onclick="window._g6.avancar(${i})">→</button><button class="btn-icon btn-delete" data-tip="Excluir" onclick="window._g6.pedirExclusao(${i})">✕</button></div></td>`;
-  tbody.appendChild(row);
-
-  if(etapas[c.etapa]==="Registro" && c.registroAberto){
-    const regRow = document.createElement("tr");
-    regRow.innerHTML = `<td colspan="9" style="padding:2px 14px 12px;">
-      <div class="registro-box">
-        <b>📄 Dados do Registro</b>
-        <select onchange="window._g6.alterarCampoRegistro(${i},'registro',this.value)">
-          <option value="">Cartório</option>
-          <option value="1" ${c.registro=="1"?"selected":""}>1º RI</option>
-          <option value="2" ${c.registro=="2"?"selected":""}>2º RI</option>
-          <option value="3" ${c.registro=="3"?"selected":""}>3º RI</option>
-          <option value="4" ${c.registro=="4"?"selected":""}>4º RI</option>
-          <option value="5" ${c.registro=="5"?"selected":""}>5º RI</option>
-        </select>
-        ${c.registro?`<a class="btn-registro-link" href="${obterLinkRegistro(c.registro)}" target="_blank">🔗 Acessar</a>`:''}
-        <div class="registro-credenciais">
-          <div class="cred-field"><span class="cred-label">Login</span><div class="cred-wrap"><input class="cred-input" value="${c.login||''}" onchange="window._g6.alterarCampoRegistro(${i},'login',this.value)">${c.login?`<button class="cred-copy" onclick="window._g6.copiar('${c.login.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Senha</span><div class="cred-wrap"><input class="cred-input" value="${c.senha||''}" onchange="window._g6.alterarCampoRegistro(${i},'senha',this.value)">${c.senha?`<button class="cred-copy" onclick="window._g6.copiar('${c.senha.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Proposta</span><div class="cred-wrap"><input class="cred-input" value="${c.proposta||''}" onchange="window._g6.alterarCampoRegistro(${i},'proposta',this.value)">${c.proposta?`<button class="cred-copy" onclick="window._g6.copiar('${c.proposta.replace(/'/g,"\\'")}',this)">📋</button>`:''}</div></div>
-          <div class="cred-field"><span class="cred-label">Status</span><div class="cred-wrap"><input class="cred-input" style="width:280px" value="${c.status||''}" onchange="window._g6.alterarStatus(${i},this.value)"></div></div>
-        </div>
-      </div>
-    </td>`;
-    tbody.appendChild(regRow);
+function avancar(i) {
+  if (clientes[i].etapa < etapas.length - 1) {
+    clientes[i].etapa++;
+    salvar();
+    render();
   }
 }
 
-function render(){
-  const tbody = document.getElementById("tabela");
-  tbody.innerHTML = "";
-  let lista = filtroEtapa!==null ? clientes.filter(c=>c.etapa===filtroEtapa) : clientes;
-  if(!lista.length) tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>Nenhum cliente.</p></div></td></tr>';
-  else lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-  atualizarDashboard(); atualizarPipeline();
+function alterarRetorno(i, valor) {
+  clientes[i].retorno = valor;
+  salvar();
+  render();
 }
 
-function atualizarDashboard(){
-  document.getElementById("totalClientes").innerText=clientes.length;
-  document.getElementById("totalAprovados").innerText=clientes.filter(c=>c.retorno==="aprovado").length;
-  document.getElementById("totalContratacao").innerText=clientes.filter(c=>etapas[c.etapa]==="Contratação").length;
+function alterarStatus(i, valor) {
+  clientes[i].status = valor;
+  salvar();
 }
 
-function atualizarPipeline(){
-  const pipe=document.getElementById("pipeline"); pipe.innerHTML="";
-  etapas.forEach((e,i)=>{
-    const total=clientes.filter(c=>c.etapa===i).length;
-    const d=document.createElement("div"); d.className=`step${filtroEtapa===i?' active':''}`; d.innerHTML=`<strong>${total}</strong>${e}`; d.onclick=()=>filtrarEtapa(i); pipe.appendChild(d);
-  });
-  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Ver Todos"; all.onclick=limparFiltro; pipe.appendChild(all);
+function alterarBanco(i, valor) {
+  clientes[i].bancos = valor;
+  salvar();
 }
 
-function renderCaixa(){
-  const tbody = document.getElementById("cx-tabela"); tbody.innerHTML = "";
-  const cxClientes = clientes.filter(c => Array.isArray(c.bancos) && c.bancos.includes("Caixa"));
-  let lista = cxFiltroEtapa!==null ? cxClientes.filter(c=>c.etapa===cxFiltroEtapa) : cxClientes;
-  if(!lista.length) tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>Nenhum cliente Caixa.</p></div></td></tr>';
-  else lista.forEach(c => renderLinha(c, clientes.indexOf(c), tbody));
-
-  document.getElementById("cx-totalClientes").innerText=cxClientes.length;
-  document.getElementById("cx-totalAprovados").innerText=cxClientes.filter(c=>c.retorno==="aprovado").length;
-  document.getElementById("cx-totalContratacao").innerText=cxClientes.filter(c=>etapas[c.etapa]==="Contratação").length;
-
-  const pipe=document.getElementById("cx-pipeline"); pipe.innerHTML="";
-  etapas.forEach((e,i)=>{
-    const total=cxClientes.filter(c=>c.etapa===i).length;
-    const d=document.createElement("div"); d.className=`step${cxFiltroEtapa===i?' active':''}`; d.innerHTML=`<strong>${total}</strong>${e}`; d.onclick=()=>cxFiltrarEtapa(i); pipe.appendChild(d);
-  });
-  const all=document.createElement("div"); all.className="step clear"; all.innerHTML="<strong>↺</strong>Ver Todos"; all.onclick=cxLimparFiltro; pipe.appendChild(all);
+function alterarCampoRegistro(i, campo, valor) {
+  clientes[i][campo] = valor;
+  clientes[i].registroSalvo = false; // 🔥 reset
+  salvar();
 }
 
-window.toggleBusca = function() {
-  const box = document.getElementById('busca-box');
-  const input = document.getElementById('busca-input');
-  const aberto = box.style.display === 'block';
-  box.style.display = aberto ? 'none' : 'block';
-  if (!aberto) { input.value=''; filtrarBusca(''); input.focus(); }
-};
+function salvarRegistro(i) {
+  clientes[i].registroSalvo = true;
+  salvar();
+  render();
+}
 
-window.filtrarBusca = function(termo) {
-  const res = document.getElementById('busca-resultados');
-  if (!termo.trim()) { res.innerHTML=''; return; }
-  const found = clientes.filter(c => c.nome.toLowerCase().includes(termo.toLowerCase()));
-  if (!found.length) { res.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:6px 4px;">Nenhum cliente.</div>'; return; }
-  res.innerHTML = found.map(c => {
+function filtrarEtapa(index) {
+  filtroEtapa = index;
+  render();
+}
+
+function limparFiltro() {
+  filtroEtapa = null;
+  render();
+}
+
+function render() {
+  const tabela = document.getElementById("tabela");
+  tabela.innerHTML = "";
+
+  let lista = clientes;
+  if (filtroEtapa !== null) {
+    lista = clientes.filter(c => c.etapa === filtroEtapa);
+  }
+
+  lista.forEach((c) => {
     const i = clientes.indexOf(c);
-    return `<div onclick="irParaCliente(${i})" style="padding:8px 10px;border-radius:7px;cursor:pointer;font-size:13px;display:flex;flex-direction:column;gap:2px;">
-      <span style="font-weight:600;">${c.nome}</span>
-      <span style="font-size:11px;color:var(--muted);">${c.parceiro||''} · ${etapas[c.etapa]}</span>
-    </div>`;
-  }).join('');
-};
 
-window.irParaCliente = function(i) {
-  document.getElementById('busca-box').style.display='none';
-  trocarAba('geral', document.querySelectorAll('.tab-btn')[0]);
-  filtroEtapa=null; render();
-  setTimeout(()=>{
-    const linhas = document.querySelectorAll('#tabela tr');
-    for(const l of linhas){
-      if(l.textContent.includes(clientes[i].nome)){
-        l.scrollIntoView({behavior:'smooth', block:'center'});
-        l.style.background='rgba(56,189,248,.1)';
-        setTimeout(()=>l.style.background='', 2000); break;
-      }
+    let registroHTML = "";
+
+    if (etapas[c.etapa] === "Registro") {
+      registroHTML = `
+      <tr>
+        <td colspan="8">
+          <div class="registro-box">
+
+            <b>📄 DADOS DO REGISTRO</b><br><br>
+
+            <select onchange="alterarCampoRegistro(${i}, 'registro', this.value)">
+              <option value="">Registro</option>
+              <option value="1" ${c.registro=="1"?"selected":""}>1º</option>
+              <option value="2" ${c.registro=="2"?"selected":""}>2º</option>
+              <option value="3" ${c.registro=="3"?"selected":""}>3º</option>
+              <option value="4" ${c.registro=="4"?"selected":""}>4º</option>
+              <option value="5" ${c.registro=="5"?"selected":""}>5º</option>
+            </select>
+
+            <select onchange="alterarCampoRegistro(${i}, 'formato', this.value)">
+              <option value="">Formato</option>
+              <option value="digital" ${c.formato=="digital"?"selected":""}>Digital</option>
+              <option value="fisico" ${c.formato=="fisico"?"selected":""}>Físico</option>
+            </select>
+
+            <input placeholder="Solicitante" value="${c.solicitante}" 
+              oninput="alterarCampoRegistro(${i}, 'solicitante', this.value)">
+
+            <input placeholder="Login" value="${c.login}" 
+              oninput="alterarCampoRegistro(${i}, 'login', this.value)">
+
+            <input placeholder="Senha" value="${c.senha}" 
+              oninput="alterarCampoRegistro(${i}, 'senha', this.value)">
+
+            <input placeholder="Responsável" value="${c.responsavel}" 
+              oninput="alterarCampoRegistro(${i}, 'responsavel', this.value)">
+
+            <br><br>
+
+            <button class="add" onclick="salvarRegistro(${i})">
+              💾 Salvar Registro
+            </button>
+
+            ${
+              c.registroSalvo 
+              ? '<span style="margin-left:10px;color:#22c55e;font-weight:bold;">Salvo ✅</span>'
+              : ''
+            }
+
+          </div>
+        </td>
+      </tr>
+      `;
     }
-  }, 100);
-};
 
-function trocarAba(aba, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+aba).classList.add('active');
-  btn.classList.add('active');
+    tabela.innerHTML += `
+    <tr>
+      <td>${c.nome}</td>
+      <td>${c.parceiro}</td>
+
+      <td>
+        <select onchange="alterarRetorno(${i}, this.value)" class="retorno-select ${c.retorno}">
+          <option value="aprovado" ${c.retorno==="aprovado"?"selected":""}>Aprovado</option>
+          <option value="condicionado" ${c.retorno==="condicionado"?"selected":""}>Condicionado</option>
+          <option value="reprovado" ${c.retorno==="reprovado"?"selected":""}>Reprovado</option>
+        </select>
+      </td>
+
+      <td>R$ ${c.valor || '-'}</td>
+
+      <td>
+        <input class="table-input"
+          value="${c.status || ''}"
+          oninput="alterarStatus(${i}, this.value)">
+      </td>
+
+      <td>${etapas[c.etapa]}</td>
+
+      <td>
+        <select onchange="alterarBanco(${i}, this.value)" class="select-table">
+          <option ${c.bancos==="Bradesco"?"selected":""}>Bradesco</option>
+          <option ${c.bancos==="Itaú"?"selected":""}>Itaú</option>
+          <option ${c.bancos==="Santander"?"selected":""}>Santander</option>
+          <option ${c.bancos==="Inter"?"selected":""}>Inter</option>
+          <option ${c.bancos==="Caixa"?"selected":""}>Caixa</option>
+        </select>
+      </td>
+
+      <td>
+        <button class="next" onclick="avancar(${i})">➡️</button>
+        <button class="delete" onclick="excluir(${i})">X</button>
+      </td>
+    </tr>
+
+    ${registroHTML}
+    `;
+  });
+
+  atualizarDashboard();
+  atualizarPipeline();
 }
-window.trocarAba = trocarAba;
 
-window._g6 = { adicionarCliente, pedirExclusao, fecharModal, confirmarExclusao, avancar, voltar, alterarRetorno, alterarStatus, toggleBanco, alterarCampoRegistro, toggleRegistro, copiar };
-document.getElementById("btn-add-geral").onclick = adicionarCliente;
-document.getElementById("btn-cancel").onclick = fecharModal;
-document.getElementById("btn-confirm").onclick = confirmarExclusao;
+function atualizarDashboard() {
+  totalClientes.innerText = clientes.length;
+  totalAprovados.innerText = clientes.filter(c => c.retorno === "aprovado").length;
+  totalContratacao.innerText = clientes.filter(c => etapas[c.etapa] === "Contratação").length;
+}
+
+function atualizarPipeline() {
+  const pipeline = document.getElementById("pipeline");
+  pipeline.innerHTML = "";
+
+  etapas.forEach((etapa, index) => {
+    const total = clientes.filter(c => c.etapa === index).length;
+
+    pipeline.innerHTML += `
+      <div class="step ${filtroEtapa===index ? 'active' : ''}" onclick="filtrarEtapa(${index})">
+        ${etapa}<br><strong>${total}</strong>
+      </div>
+    `;
+  });
+
+  pipeline.innerHTML += `
+    <div class="step" onclick="limparFiltro()" style="background:#334155;">
+      Ver Todos
+    </div>
+  `;
+}
+
+render();
 </script>
-</body>
-</html>
+
+
+
+</body></html>
