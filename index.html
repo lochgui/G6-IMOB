@@ -27,7 +27,7 @@ header { display:flex; align-items:center; gap:14px; padding:24px 32px 0; margin
 .tab-panel.active { display:block; }
 
 /* ── TOOLBAR ── */
-.toolbar { display:flex; align-items:center; gap:8px; padding:0 32px; margin-bottom:16px; flex-wrap:wrap; }
+.toolbar { display:flex; align-items:center; gap:8px; padding:0 32px; margin-bottom:8px; flex-wrap:wrap; }
 .toolbar-sep { width:1px; height:24px; background:var(--border); margin:0 4px; flex-shrink:0; }
 .filter-btn { padding:6px 14px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:inherit; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; }
 .filter-btn:hover { color:var(--text); border-color:#2d4a70; }
@@ -37,6 +37,9 @@ header { display:flex; align-items:center; gap:14px; padding:24px 32px 0; margin
 .btn-toolbar { padding:6px 14px; border-radius:8px; border:1px solid var(--border); background:var(--surface); color:var(--muted); font-family:inherit; font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; display:inline-flex; align-items:center; gap:5px; }
 .btn-toolbar:hover { color:var(--text); border-color:#2d4a70; }
 .btn-toolbar.active { background:rgba(56,189,248,.1); border-color:var(--sky); color:var(--sky); }
+
+/* ── TAG FILTER BAR ── */
+#tag-filter-bar { display:none; align-items:center; gap:6px; padding:0 32px; margin-bottom:10px; flex-wrap:wrap; }
 
 /* ── CONTAINER ── */
 .container { padding:0 32px 40px; }
@@ -148,10 +151,12 @@ body.compact td { padding:6px 8px; }
 .btn-delete { background:rgba(239,68,68,.15);  color:var(--red); }
 .btn-prev   { background:rgba(56,189,248,.15); color:var(--sky); }
 .btn-note   { background:rgba(167,139,250,.15);color:var(--purple); }
+.btn-tag    { background:rgba(250,204,21,.12); color:var(--yellow); font-size:14px; }
 .btn-next:hover   { background:var(--green);  color:#fff; transform:scale(1.1); }
 .btn-delete:hover { background:var(--red);    color:#fff; transform:scale(1.1); }
 .btn-prev:hover   { background:var(--sky);    color:#fff; transform:scale(1.1); }
 .btn-note:hover   { background:var(--purple); color:#fff; transform:scale(1.1); }
+.btn-tag:hover    { background:var(--yellow); color:#0b1120; transform:scale(1.1); }
 .btn-icon::after { content:attr(data-tip); position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#0f172a; color:var(--text); font-size:11px; white-space:nowrap; padding:4px 8px; border-radius:6px; border:1px solid var(--border); opacity:0; pointer-events:none; transition:opacity .15s; z-index:10; }
 .btn-icon:hover::after { opacity:1; }
 
@@ -234,6 +239,42 @@ body.compact td { padding:6px 8px; }
 #modalNota textarea { width:100%; min-height:130px; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit; font-size:13px; padding:10px 12px; outline:none; resize:vertical; transition:border-color .2s; }
 #modalNota textarea:focus { border-color:var(--sky); }
 
+/* ── MODAL TAGS ── */
+#modalTags { width:520px; max-width:95vw; text-align:left; }
+#modalTags h3 { text-align:center; }
+#modalTags .tag-modal-cliente { text-align:center; font-size:13px; color:var(--sky); margin-bottom:20px; }
+.tag-modal-section { margin-bottom:18px; }
+.tag-modal-label { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; display:block; }
+.tag-input-row { display:flex; gap:8px; align-items:center; }
+.tag-input-row input {
+  flex:1; padding:10px 14px; border-radius:8px; border:1px solid var(--border);
+  background:var(--bg); color:var(--text); font-family:inherit; font-size:13px;
+  outline:none; transition:border-color .2s;
+}
+.tag-input-row input:focus { border-color:var(--yellow); }
+.tag-input-row input::placeholder { color:#334155; }
+.btn-add-tag {
+  padding:10px 18px; background:rgba(250,204,21,.15); color:var(--yellow);
+  border:1px solid rgba(250,204,21,.3); border-radius:8px; font-family:inherit;
+  font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;
+  transition:all .2s; flex-shrink:0;
+}
+.btn-add-tag:hover { background:var(--yellow); color:#0b1120; }
+.tag-current-area {
+  min-height:44px; padding:10px; border-radius:8px;
+  background:var(--bg); border:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:5px; align-items:center;
+}
+.tag-sugestoes-area { display:flex; flex-wrap:wrap; gap:6px; align-items:center; min-height:28px; }
+.tag-sugestao-chip {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:4px 12px; border-radius:20px; font-size:11px; font-weight:700;
+  cursor:pointer; border:1.5px dashed; background:transparent;
+  font-family:inherit; transition:all .18s; opacity:.7;
+}
+.tag-sugestao-chip:hover { opacity:1; transform:translateY(-1px); }
+.tag-sugestao-chip span { font-size:10px; opacity:.7; }
+
 /* ── MODAL PARADOS ── */
 .parado-item { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-radius:8px; background:var(--surface2); margin-bottom:6px; gap:10px; text-align:left; }
 .parado-item .parado-nome { font-weight:600; font-size:13px; }
@@ -302,6 +343,10 @@ body.compact td { padding:6px 8px; }
   <button class="btn-toolbar" onclick="exportarCSV()">⬇️ Exportar CSV</button>
   <button class="btn-toolbar" id="btn-compacto" onclick="toggleCompacto()">⊟ Compacto</button>
 </div>
+
+<!-- TAG FILTER BAR -->
+<div id="tag-filter-bar" style="display:none;align-items:center;gap:6px;padding:0 32px;margin-bottom:10px;flex-wrap:wrap;"></div>
+
 <!-- ABA GERAL -->
 <div id="tab-geral" class="tab-panel active">
 <div class="container">
@@ -404,6 +449,51 @@ body.compact td { padding:6px 8px; }
   </div>
 </div>
 
+<!-- MODAL NOTA -->
+<div class="modal-overlay" id="modalNota">
+  <div class="modal" style="text-align:left;">
+    <h3 style="text-align:center;margin-bottom:4px;">📝 Nota</h3>
+    <p id="nota-cliente-nome" style="text-align:center;font-size:13px;color:var(--sky);margin-bottom:14px;"></p>
+    <textarea id="nota-textarea" placeholder="Escreva uma nota sobre este cliente..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="fecharModalNota()">Cancelar</button>
+      <button class="btn-save-note" onclick="salvarNota()">Salvar Nota</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAGS -->
+<div class="modal-overlay" id="modalTags">
+  <div class="modal" id="modalTagsInner">
+    <h3>🏷️ Etiquetas</h3>
+    <p id="tag-cliente-nome" style="font-size:13px;color:var(--sky);margin-bottom:0;text-align:center;"></p>
+
+    <div class="tag-modal-section" style="margin-top:18px;">
+      <span class="tag-modal-label">Etiquetas atuais</span>
+      <div class="tag-current-area" id="tag-lista-atual">
+        <span style="font-size:12px;color:var(--muted);">Nenhuma etiqueta ainda.</span>
+      </div>
+    </div>
+
+    <div class="tag-modal-section">
+      <span class="tag-modal-label">Adicionar nova etiqueta</span>
+      <div class="tag-input-row">
+        <input id="tag-input" type="text" placeholder="Digite e pressione Enter ou clique em Adicionar…" maxlength="40">
+        <button class="btn-add-tag" onclick="adicionarTag()">+ Adicionar</button>
+      </div>
+    </div>
+
+    <div class="tag-modal-section" id="tag-sugestoes-section">
+      <span class="tag-modal-label">Sugestões</span>
+      <div class="tag-sugestoes-area" id="tag-sugestoes"></div>
+    </div>
+
+    <div class="modal-btns" style="justify-content:flex-end;">
+      <button class="btn-cancel" onclick="fecharModalTags()">Fechar</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -422,10 +512,10 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
-const clientesRef   = ref(db, "clientes");
+const clientesRef    = ref(db, "clientes");
 const finalizadosRef = ref(db, "finalizados");
 
-// paleta de cores para tags — cicla automaticamente
+/* ── TAGS: CORES ── */
 const TAG_CORES = [
   {bg:'rgba(56,189,248,.18)',  border:'#38bdf8', text:'#38bdf8'},
   {bg:'rgba(167,139,250,.18)', border:'#a78bfa', text:'#a78bfa'},
@@ -436,7 +526,6 @@ const TAG_CORES = [
   {bg:'rgba(236,72,153,.18)',  border:'#ec4899', text:'#ec4899'},
   {bg:'rgba(20,184,166,.18)',  border:'#14b8a6', text:'#14b8a6'},
 ];
-// mapa persistente de tag → cor (índice)
 let tagCoreMap = {};
 function corDaTag(tag) {
   if(tagCoreMap[tag] === undefined) {
@@ -449,6 +538,9 @@ function tagHTML(tag, removerFn) {
   return `<span class="tag" style="background:${c.bg};border-color:${c.border};color:${c.text};">${tag}${removerFn?`<span class="tag-x" onclick="${removerFn}">✕</span>`:''}</span>`;
 }
 
+/* ── SUGESTÕES PRÉ-DEFINIDAS ── */
+const SUGESTOES_PADRAO = ["Fechamento em Espera","Documentação Pendente","Prioridade Alta","Aguardando Banco","Em Análise","Vistoria Marcada","Proposta Enviada","Retorno Agendado"];
+
 const etapas      = ["Atendido","Aprovado","Contratação","Engenharia","Jurídico","Assinatura","Registro","Pagamento"];
 const todosBancos = ["Bradesco","Itaú","Santander","Inter","Caixa"];
 const bancosLogos = {
@@ -460,14 +552,14 @@ const bancosLogos = {
 };
 
 let clientes        = [];
-let finalizados     = [];   // ← clientes arquivados
+let finalizados     = [];
 let filtroEtapa     = null;
 let filtroRetorno   = null;
-let filtroTag       = null;   // ← filtro de tag ativo
+let filtroTag       = null;
 let cxFiltroEtapa   = null;
 let indexParaExcluir = null;
 let notaIndex       = null;
-let tagIndex        = null;   // ← índice do cliente editando tags
+let tagIndex        = null;
 let sortCol         = null;
 let sortDir         = 1;
 let diasParadoAlerta = 7;
@@ -483,26 +575,10 @@ function diasDesde(iso) {
   if(!iso) return null;
   return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
 }
-function diasAte(dateStr) {
-  if(!dateStr) return null;
-  const hoje = new Date(); hoje.setHours(0,0,0,0);
-  const alvo = new Date(dateStr + 'T00:00:00');
-  return Math.ceil((alvo - hoje) / 86400000);
-}
 function diasBadge(d) {
   if(d===null) return '';
   const cls = d<=3?'dias-red':d<=7?'dias-laranja':d<=14?'dias-yellow':'dias-verde';
   return `<span class="dias-badge ${cls}">${d}d</span>`;
-}
-function prazoBadge(dateStr) {
-  const d = diasAte(dateStr);
-  if(d===null) return '';
-  let cls, txt;
-  if(d < 0)     { cls='prazo-vencido'; txt=`🔴 Vencido há ${Math.abs(d)}d`; }
-  else if(d<=3) { cls='prazo-urgente'; txt=`🟠 Vence em ${d}d`; }
-  else if(d<=7) { cls='prazo-proximo'; txt=`🟡 Prazo: ${d}d`; }
-  else          { cls='prazo-ok';      txt=`🟢 Prazo: ${d}d`; }
-  return `<span class="prazo-badge ${cls}">${txt}</span>`;
 }
 function formatarData(iso) {
   if(!iso) return '—';
@@ -532,7 +608,6 @@ function toast(msg) {
 /* ═══════════════════════════════════════════
    FIREBASE
 ════════════════════════════════════════════ */
-let primeiroCarregamento = true;
 function normalizeCliente(c) {
   if(!Array.isArray(c.bancos))        c.bancos = c.bancos ? [c.bancos] : [];
   if(!Array.isArray(c.statusHistory)) c.statusHistory = [];
@@ -548,11 +623,9 @@ function normalizeCliente(c) {
 onValue(clientesRef, (snapshot) => {
   const data = snapshot.val();
   clientes = data ? Object.values(data).map(normalizeCliente) : [];
-  // rebuild tag color map
   clientes.forEach(c=>(c.tags||[]).forEach(t=>corDaTag(t)));
   render(); renderCaixa(); renderFinalizados();
   setStatus("✓ Sincronizado","ok");
-  if(primeiroCarregamento){ primeiroCarregamento=false; }
 }, () => setStatus("⚠ Sem conexão","err"));
 
 function salvar() {
@@ -591,6 +664,7 @@ function adicionarCliente(){
     status:"", bancos:[], etapa:0,
     registro:"", login:"", senha:"", proposta:"",
     registroSalvo:false, statusHistory:[], nota:"",
+    tags:[],
     etapaDesde:new Date().toISOString(),
     dataCadastro:new Date().toISOString(),
     ultimaAtualizacao:new Date().toISOString(),
@@ -637,11 +711,6 @@ function alterarStatus(i,v){
   salvar();
 }
 
-function alterarPrazo(i,v){
-  clientes[i].prazo = v;
-  salvar();
-}
-
 function toggleBanco(i,banco){
   const idx = clientes[i].bancos.indexOf(banco);
   if(idx===-1) clientes[i].bancos.push(banco);
@@ -682,11 +751,13 @@ window.fecharModalNota=fecharModalNota;
 window.salvarNota=salvarNota;
 
 /* ═══════════════════════════════════════════
-   TAGS
+   TAGS — MODAL COMPLETO
 ════════════════════════════════════════════ */
-// sugestões globais baseadas nas tags já usadas
 function todasAsTags(){
   const s=new Set();
+  // sugestões padrão sempre disponíveis
+  SUGESTOES_PADRAO.forEach(t=>s.add(t));
+  // tags já usadas por qualquer cliente
   clientes.forEach(c=>(c.tags||[]).forEach(t=>s.add(t)));
   return [...s].sort();
 }
@@ -696,8 +767,12 @@ function abrirModalTags(i){
   document.getElementById('tag-cliente-nome').textContent=clientes[i].nome;
   renderTagsModal();
   document.getElementById('modalTags').classList.add('open');
-  setTimeout(()=>document.getElementById('tag-input').focus(),80);
+  // Enter para adicionar
+  const inp=document.getElementById('tag-input');
+  inp.value='';
+  setTimeout(()=>inp.focus(),80);
 }
+
 function fecharModalTags(){
   tagIndex=null;
   document.getElementById('modalTags').classList.remove('open');
@@ -708,47 +783,89 @@ window.fecharModalTags=fecharModalTags;
 function renderTagsModal(){
   if(tagIndex===null) return;
   const tags=clientes[tagIndex].tags||[];
-  // tags atuais com botão remover
-  document.getElementById('tag-lista-atual').innerHTML = tags.length
-    ? tags.map(t=>tagHTML(t,`window._g6.removerTag(${tagIndex},'${t.replace(/'/g,"\\'")}')`)).join('')
-    : '<span style="font-size:12px;color:var(--muted);">Nenhuma etiqueta ainda.</span>';
-  // sugestões de tags já existentes
-  const sugestoes=todasAsTags().filter(t=>!tags.includes(t));
-  document.getElementById('tag-sugestoes').innerHTML=sugestoes.length
-    ? '<span style="font-size:10px;color:var(--muted);margin-right:2px;">Sugestões:</span>'
-      + sugestoes.map(t=>`<button class="tag-filter-btn" style="color:${corDaTag(t).text};border-color:${corDaTag(t).border};background:${corDaTag(t).bg}" onclick="window._g6.adicionarTagDireta(${tagIndex},'${t.replace(/'/g,"\\'")}')">${t}</button>`).join('')
-    : '';
+
+  // ── TAGS ATUAIS ──
+  const areaAtual=document.getElementById('tag-lista-atual');
+  if(tags.length){
+    areaAtual.innerHTML=tags.map(t=>tagHTML(t,`window._g6.removerTag(${tagIndex},'${t.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')`)).join('');
+  } else {
+    areaAtual.innerHTML='<span style="font-size:12px;color:var(--muted);">Nenhuma etiqueta ainda.</span>';
+  }
+
+  // ── SUGESTÕES (excluindo as já aplicadas) ──
+  const todasTags=todasAsTags();
+  const disponiveis=todasTags.filter(t=>!tags.includes(t));
+  const areaSug=document.getElementById('tag-sugestoes');
+  const secaoSug=document.getElementById('tag-sugestoes-section');
+  if(disponiveis.length){
+    secaoSug.style.display='block';
+    areaSug.innerHTML=disponiveis.map(t=>{
+      const c=corDaTag(t);
+      const safe=t.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      return `<button class="tag-sugestao-chip" style="color:${c.text};border-color:${c.border};background:${c.bg};"
+        onclick="window._g6.adicionarTagDireta(${tagIndex},'${safe}')">
+        ${t} <span>+</span>
+      </button>`;
+    }).join('');
+  } else {
+    secaoSug.style.display='none';
+  }
 }
 
 function adicionarTag(){
   if(tagIndex===null) return;
   const inp=document.getElementById('tag-input');
   const val=inp.value.trim();
-  if(!val) return;
+  if(!val){ inp.focus(); return; }
   if(!Array.isArray(clientes[tagIndex].tags)) clientes[tagIndex].tags=[];
-  if(clientes[tagIndex].tags.includes(val)){ inp.value=''; return; }
-  corDaTag(val); // garante cor registrada
+  if(clientes[tagIndex].tags.includes(val)){
+    inp.value=''; inp.focus(); toast("⚠️ Etiqueta já existe"); return;
+  }
+  corDaTag(val);
   clientes[tagIndex].tags.push(val);
   inp.value='';
+  inp.focus();
   salvar(); renderTagsModal(); render(); renderCaixa(); atualizarTagFilterBar();
+  toast("🏷️ Etiqueta adicionada");
 }
 
 function adicionarTagDireta(i, tag){
   if(!Array.isArray(clientes[i].tags)) clientes[i].tags=[];
-  if(!clientes[i].tags.includes(tag)) clientes[i].tags.push(tag);
-  tagIndex=i; salvar(); renderTagsModal(); render(); renderCaixa(); atualizarTagFilterBar();
+  if(clientes[i].tags.includes(tag)){ toast("⚠️ Etiqueta já existe"); return; }
+  corDaTag(tag);
+  clientes[i].tags.push(tag);
+  tagIndex=i;
+  salvar(); renderTagsModal(); render(); renderCaixa(); atualizarTagFilterBar();
+  toast("🏷️ " + tag);
 }
 
 function removerTag(i, tag){
   clientes[i].tags=(clientes[i].tags||[]).filter(t=>t!==tag);
   salvar(); renderTagsModal(); render(); renderCaixa(); atualizarTagFilterBar();
   if(filtroTag===tag){ filtroTag=null; atualizarTagFilterBar(); render(); }
+  toast("🗑️ Etiqueta removida");
+}
+
+// Enter no input do modal de tags
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('tag-input').addEventListener('keydown', e=>{
+    if(e.key==='Enter'){ e.preventDefault(); adicionarTag(); }
+  });
+});
+// fallback para módulo (DOMContentLoaded pode já ter disparado)
+if(document.readyState!=='loading'){
+  document.getElementById('tag-input').addEventListener('keydown', e=>{
+    if(e.key==='Enter'){ e.preventDefault(); adicionarTag(); }
+  });
 }
 
 /* ── TAG FILTER BAR ── */
 function atualizarTagFilterBar(){
   const bar=document.getElementById('tag-filter-bar');
-  const todas=todasAsTags();
+  // só mostra tags que realmente existem em algum cliente
+  const usadas=new Set();
+  clientes.forEach(c=>(c.tags||[]).forEach(t=>usadas.add(t)));
+  const todas=[...usadas].sort();
   if(!todas.length){ bar.innerHTML=''; bar.style.display='none'; return; }
   bar.style.display='flex';
   bar.innerHTML='<span style="font-size:11px;color:var(--muted);margin-right:2px;flex-shrink:0;">🏷️ Tags:</span>'
@@ -772,8 +889,7 @@ window.toggleFiltroTag=toggleFiltroTag;
 function finalizarCliente(i){
   clientes[i].finalizado = true;
   clientes[i].dataFinalizacao = new Date().toISOString();
-  salvar();
-  toast("✅ Cliente finalizado");
+  salvar(); toast("✅ Cliente finalizado");
   trocarAba('finalizados', document.getElementById('tab-btn-finalizados'));
 }
 function reativarCliente(i){
@@ -812,6 +928,7 @@ function renderLinhaFinalizado(c, i, tbody){
         ${c.dataCadastro?`<span class="meta-chip meta-entrada">📅 ${formatarData(c.dataCadastro)}</span>`:''}
         ${c.dataFinalizacao?`<span class="meta-chip" style="background:rgba(74,222,128,.1);color:#4ade80;">✅ ${formatarData(c.dataFinalizacao)}</span>`:''}
       </div>
+      ${renderTagsInline(c.tags)}
     </td>
     <td style="color:var(--muted)">${c.parceiro||'—'}</td>
     <td><select class="select-table retorno-select ${c.retorno}" disabled><option>✅ Aprovado</option><option>⚠️ Condicionado</option><option>❌ Reprovado</option></select></td>
@@ -853,39 +970,6 @@ function abrirHistorico(i){
 }
 function fecharModalHistorico(){ document.getElementById("modalHistorico").classList.remove("open"); }
 window.fecharModalHistorico=fecharModalHistorico;
-
-/* ═══════════════════════════════════════════
-   CLIENTES PARADOS
-════════════════════════════════════════════ */
-function salvarDiasParado(v){ diasParadoAlerta=parseInt(v); }
-window.salvarDiasParado=salvarDiasParado;
-
-function verificarParados(){
-  const parados = clientes.filter(c=>{
-    const ref = c.ultimaAtualizacao || c.etapaDesde || c.dataCadastro;
-    const d = diasDesde(ref);
-    return d !== null && d >= diasParadoAlerta;
-  });
-  if(!parados.length) return;
-  const list = document.getElementById("parados-list");
-  document.getElementById("parados-subtitulo").textContent =
-    `${parados.length} cliente${parados.length>1?'s':''} sem atualização há ${diasParadoAlerta}+ dias`;
-  list.innerHTML = parados.map(c=>{
-    const ref = c.ultimaAtualizacao||c.etapaDesde||c.dataCadastro;
-    const d = diasDesde(ref);
-    const cls = d>14?'prazo-vencido':d>7?'prazo-urgente':'prazo-proximo';
-    return `<div class="parado-item">
-      <div>
-        <div class="parado-nome">${c.nome}</div>
-        <div class="parado-info">${etapas[c.etapa]} · Parceiro: ${c.parceiro||'—'}</div>
-      </div>
-      <span class="parado-badge ${cls}">${d}d sem atualização</span>
-    </div>`;
-  }).join('');
-  document.getElementById("modalParados").classList.add("open");
-}
-function fecharModalParados(){ document.getElementById("modalParados").classList.remove("open"); }
-window.fecharModalParados=fecharModalParados;
 
 /* ═══════════════════════════════════════════
    FILTROS
@@ -932,15 +1016,16 @@ window.toggleCompacto=toggleCompacto;
    EXPORTAR CSV
 ════════════════════════════════════════════ */
 function exportarCSV(){
-  const cols=['Nome','Parceiro','Retorno','Financiamento','Valor Imóvel','Prazo','Status','Última Atualização','Etapa','Bancos','Propostas Bancos','Nota','Data Cadastro'];
+  const cols=['Nome','Parceiro','Retorno','Financiamento','Valor Imóvel','Status','Última Atualização','Etapa','Bancos','Propostas Bancos','Tags','Nota','Data Cadastro'];
   const rows=clientes.map(c=>{
     const props=Object.entries(c.propostasBanco||{}).map(([b,v])=>`${b}:${v}`).join(' | ');
     return [
       `"${c.nome||''}"`, `"${c.parceiro||''}"`, c.retorno||'',
-      `"${c.valor||''}"`, `"${c.valorImovel||''}"`, c.prazo||'',
+      `"${c.valor||''}"`, `"${c.valorImovel||''}"`,
       `"${c.status||''}"`, c.statusData||'',
       etapas[c.etapa]||'', `"${(c.bancos||[]).join(', ')}"`,
-      `"${props}"`, `"${(c.nota||'').replace(/"/g,'""')}"`,
+      `"${props}"`, `"${(c.tags||[]).join(', ')}"`,
+      `"${(c.nota||'').replace(/"/g,'""')}"`,
       c.dataCadastro?new Date(c.dataCadastro).toLocaleDateString('pt-BR'):''
     ].join(';');
   });
@@ -952,15 +1037,6 @@ function exportarCSV(){
   a.click(); URL.revokeObjectURL(url); toast("⬇️ CSV exportado");
 }
 window.exportarCSV=exportarCSV;
-
-/* ═══════════════════════════════════════════
-   DRAG AND DROP (pipeline de etapas)
-════════════════════════════════════════════ */
-function setupDragRow(row, idx){
-}
-
-function setupDragStep(stepEl, etapaIdx){
-}
 
 /* ═══════════════════════════════════════════
    BANCOS + PROPOSTA HTML
@@ -985,24 +1061,26 @@ function renderBancos(i, ativos, props){
    RENDER LINHA
 ════════════════════════════════════════════ */
 function renderLinha(c, i, tbody){
-  // skip finalizados na aba principal
   if(c.finalizado) return;
   const bancosAtivos = Array.isArray(c.bancos)?c.bancos:[];
   const props        = c.propostasBanco||{};
   const dEtapa       = diasDesde(c.etapaDesde);
   const hist         = Array.isArray(c.statusHistory)?c.statusHistory:[];
+  const temNota      = !!(c.nota && c.nota.trim());
+  const temTags      = !!(c.tags && c.tags.length);
   const row          = document.createElement("tr");
   row.className      = `row-${c.retorno}`;
-  setupDragRow(row, i);
 
   row.innerHTML = `
-    <td style="font-weight:600;text-align:left;min-width:140px;">
+    <td style="font-weight:600;text-align:left;min-width:160px;">
       <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
         <span>${c.nome}</span>
+        ${temNota?'<span class="nota-dot" title="Tem nota"></span>':''}
       </div>
       <div class="meta-info">
         ${c.dataCadastro?`<span class="meta-chip meta-entrada" title="Data de entrada">📅 ${formatarData(c.dataCadastro)}</span>`:''}
       </div>
+      ${temTags?renderTagsInline(c.tags):''}
       ${etapas[c.etapa]==="Registro"?`<div><span onclick="window._g6.toggleRegistro(${i})" style="font-size:11px;font-weight:400;color:${c.registroAberto?'var(--sky)':'var(--muted)'};cursor:pointer;letter-spacing:.3px;">📄 ${c.registroAberto?'fechar':'ver registro'}</span></div>`:''}
     </td>
     <td style="color:var(--muted)">${c.parceiro||'—'}</td>
@@ -1032,6 +1110,8 @@ function renderLinha(c, i, tbody){
       <div class="actions">
         <button class="btn-icon btn-prev"   data-tip="Voltar"      onclick="window._g6.voltar(${i})">←</button>
         <button class="btn-icon btn-next"   data-tip="Avançar"     onclick="window._g6.avancar(${i})">→</button>
+        <button class="btn-icon btn-tag"    data-tip="Etiquetas"   onclick="window._g6.abrirModalTags(${i})">🏷</button>
+        <button class="btn-icon btn-note"   data-tip="Nota"        onclick="window._g6.abrirNota(${i})">${temNota?'📝':'📄'}</button>
         <button class="btn-icon"            data-tip="Finalizar"   onclick="window._g6.finalizarCliente(${i})" style="background:rgba(74,222,128,.12);color:#4ade80;font-size:12px;">✅</button>
         <button class="btn-icon btn-delete" data-tip="Excluir"     onclick="window._g6.pedirExclusao(${i})">✕</button>
       </div>
@@ -1092,7 +1172,7 @@ function render(){
   const lista=listaFiltrada();
   if(!lista.length) tbody.innerHTML='<tr><td colspan="9"><div class="empty"><p>Nenhum cliente encontrado.</p></div></td></tr>';
   else lista.forEach(c=>renderLinha(c, clientes.indexOf(c), tbody));
-  atualizarDashboard(); atualizarPipeline();
+  atualizarDashboard(); atualizarPipeline(); atualizarTagFilterBar();
 }
 
 function atualizarDashboard(){
@@ -1116,7 +1196,6 @@ function atualizarPipeline(){
     d.className=`step${filtroEtapa===i?' active':''}`;
     d.innerHTML=`<strong>${total}</strong>${e}`;
     d.onclick=e2=>{ if(e2.target===d||e2.target.tagName==='STRONG'||e2.target.tagName==='SPAN'){ filtroEtapa=filtroEtapa===i?null:i; render(); }};
-    setupDragStep(d, i);
     pipe.appendChild(d);
   });
   const all=document.createElement("div");
@@ -1222,6 +1301,7 @@ function trocarAba(aba, btn){
   document.getElementById('tab-'+aba).classList.add('active');
   btn.classList.add('active');
   document.getElementById('toolbar-geral').style.display=aba==='geral'?'flex':'none';
+  document.getElementById('tag-filter-bar').style.display=aba==='geral'?'flex':'none';
 }
 window.trocarAba=trocarAba;
 
@@ -1230,14 +1310,27 @@ window.trocarAba=trocarAba;
 ════════════════════════════════════════════ */
 window._g6={
   adicionarCliente, pedirExclusao, fecharModal, confirmarExclusao,
-  avancar, voltar, alterarRetorno, alterarStatus, alterarPrazo,
+  avancar, voltar, alterarRetorno, alterarStatus,
   toggleBanco, alterarPropostaBanco, alterarCampoRegistro, toggleRegistro,
-  copiar, abrirHistorico, finalizarCliente, reativarCliente
+  copiar, abrirHistorico, finalizarCliente, reativarCliente,
+  abrirNota, abrirModalTags, removerTag, adicionarTagDireta
 };
 
 document.getElementById("btn-add-geral").onclick=adicionarCliente;
 document.getElementById("btn-cancel").onclick=fecharModal;
 document.getElementById("btn-confirm").onclick=confirmarExclusao;
+
+// Fechar modais clicando no overlay
+['modalExcluir','modalHistorico','modalNota','modalTags'].forEach(id=>{
+  document.getElementById(id).addEventListener('click', e=>{
+    if(e.target.id===id){
+      if(id==='modalNota') fecharModalNota();
+      else if(id==='modalTags') fecharModalTags();
+      else if(id==='modalHistorico') fecharModalHistorico();
+      else fecharModal();
+    }
+  });
+});
 
 document.addEventListener('click', e=>{
   const box=document.getElementById('busca-box'), lupa=document.getElementById('btn-lupa');
