@@ -499,13 +499,11 @@ body.compact td { padding:6px 8px; }
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-analytics.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
+import { getFirestore, collection, doc, writeBatch, onSnapshot } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBEAB36PY_3JWVVISvGUobswDes-THzIJY",
   authDomain: "gimob-63cdb.firebaseapp.com",
-  databaseURL: "https://gimob-63cdb-default-rtdb.firebaseio.com",
   projectId: "gimob-63cdb",
   storageBucket: "gimob-63cdb.firebasestorage.app",
   messagingSenderId: "317833406501",
@@ -513,11 +511,12 @@ const firebaseConfig = {
   measurementId: "G-QB8Z7DBVER"
 };
 
-const app       = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db        = getDatabase(app);
-const clientesRef    = ref(db, "clientes");
-const finalizadosRef = ref(db, "finalizados");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const clientesCollection = collection(db, "clientes");
+let snapshotIds = new Set();
+let saveTimer = null;
+let saveInFlight = false;
 
 /* ── TAGS: CORES ── */
 const TAG_CORES = [
@@ -622,22 +621,68 @@ function normalizeCliente(c) {
   if(c.prazo === undefined)           c.prazo = "";
   if(!c.propostasBanco)               c.propostasBanco = {};
   if(c.finalizado === undefined)      c.finalizado = false;
+  if(c.registroAberto === undefined)  c.registroAberto = false;
   return c;
 }
-onValue(clientesRef, (snapshot) => {
-  const data = snapshot.val();
-  clientes = data ? Object.values(data).map(normalizeCliente) : [];
-  clientes.forEach(c=>(c.tags||[]).forEach(t=>corDaTag(t)));
-  render(); renderCaixa(); renderFinalizados();
-  setStatus("✓ Sincronizado","ok");
-}, () => setStatus("⚠ Sem conexão","err"));
+
+function clienteParaFirestore(cliente) {
+  const copia = JSON.parse(JSON.stringify(cliente));
+  delete copia._id;
+  return copia;
+}
+
+onSnapshot(clientesCollection, (snapshot) => {
+  snapshotIds = new Set(snapshot.docs.map(docSnap => docSnap.id));
+  clientes = snapshot.docs
+    .map(docSnap => normalizeCliente({_id: docSnap.id, ...docSnap.data()}))
+    .sort((a,b) => {
+      const da = a.dataCadastro ? new Date(a.dataCadastro).getTime() : 0;
+      const dbb = b.dataCadastro ? new Date(b.dataCadastro).getTime() : 0;
+      return da - dbb;
+    });
+  clientes.forEach(c => (c.tags || []).forEach(t => corDaTag(t)));
+  render();
+  renderCaixa();
+  renderFinalizados();
+  setStatus("✓ Sincronizado", "ok");
+}, (error) => {
+  console.error(error);
+  setStatus("⚠ Erro ao sincronizar", "err");
+});
+
+async function salvarAgora() {
+  if(saveInFlight) return;
+  saveInFlight = true;
+  try {
+    const batch = writeBatch(db);
+    const idsAtuais = new Set();
+
+    clientes.forEach(cliente => {
+      if(!cliente._id) cliente._id = doc(clientesCollection).id;
+      idsAtuais.add(cliente._id);
+      batch.set(doc(clientesCollection, cliente._id), clienteParaFirestore(cliente));
+    });
+
+    snapshotIds.forEach(id => {
+      if(!idsAtuais.has(id)) batch.delete(doc(clientesCollection, id));
+    });
+
+    await batch.commit();
+    snapshotIds = idsAtuais;
+    setStatus("✓ Salvo", "ok");
+  } catch (error) {
+    console.error(error);
+    setStatus("⚠ Erro ao salvar", "err");
+  } finally {
+    saveInFlight = false;
+  }
+}
 
 function salvar() {
-  const obj = {};
-  clientes.forEach((c,i) => { obj[i] = c; });
-  set(clientesRef, obj)
-    .then(()=>setStatus("✓ Salvo","ok"))
-    .catch(()=>setStatus("⚠ Erro ao salvar","err"));
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    salvarAgora();
+  }, 180);
 }
 
 /* ═══════════════════════════════════════════
