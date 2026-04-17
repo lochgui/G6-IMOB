@@ -202,7 +202,7 @@ body.compact td { padding:6px 8px; }
 .tag { display:inline-flex; align-items:center; gap:3px; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; cursor:default; border:1px solid transparent; white-space:nowrap; }
 .tag .tag-x { font-size:9px; opacity:.7; margin-left:1px; cursor:pointer; transition:opacity .15s; }
 .tag .tag-x:hover { opacity:1; }
-.tag-add-btn { display:inline-flex; align-items:center; gap:2px; padding:2px 7px; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; border:1px dashed var(--border); background:transparent; color:var(--muted); font-family:inherit; transition:all .15s; }
+.tag-add-btn { display:inline-flex; align-items:center; gap:2px; padding:2px 7px; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer; border:1px dashed var(--border); background:transparent; color:var(--muted); font-family:inherit; transition:all .15px; }
 .tag-add-btn:hover { border-color:var(--sky); color:var(--sky); }
 .tag-filter-btn { padding:4px 11px; border-radius:20px; font-size:11px; font-weight:700; cursor:pointer; border:1.5px solid transparent; background:transparent; font-family:inherit; transition:all .2s; white-space:nowrap; opacity:.6; }
 .tag-filter-btn:hover { opacity:.85; }
@@ -498,20 +498,24 @@ body.compact td { padding:6px 8px; }
 <div id="toast"></div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-analytics.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAi-xqHKf3POtrpYS5CZfre7g1PscSFtAk",
-  authDomain: "g6-imob-5f6d9.firebaseapp.com",
-  databaseURL: "https://g6-imob-5f6d9-default-rtdb.firebaseio.com",
-  projectId: "g6-imob-5f6d9",
-  storageBucket: "g6-imob-5f6d9.firebasestorage.app",
-  messagingSenderId: "553843254567",
-  appId: "1:553843254567:web:a23b85b852fab7ec297502"
+  apiKey: "AIzaSyBEAB36PY_3JWVVISvGUobswDes-THzIJY",
+  authDomain: "gimob-63cdb.firebaseapp.com",
+  databaseURL: "https://gimob-63cdb-default-rtdb.firebaseio.com",
+  projectId: "gimob-63cdb",
+  storageBucket: "gimob-63cdb.firebasestorage.app",
+  messagingSenderId: "317833406501",
+  appId: "1:317833406501:web:999bf9c29d29c135bff7cc",
+  measurementId: "G-QB8Z7DBVER"
 };
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
+
+const app       = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db        = getDatabase(app);
 const clientesRef    = ref(db, "clientes");
 const finalizadosRef = ref(db, "finalizados");
 
@@ -755,9 +759,7 @@ window.salvarNota=salvarNota;
 ════════════════════════════════════════════ */
 function todasAsTags(){
   const s=new Set();
-  // sugestões padrão sempre disponíveis
   SUGESTOES_PADRAO.forEach(t=>s.add(t));
-  // tags já usadas por qualquer cliente
   clientes.forEach(c=>(c.tags||[]).forEach(t=>s.add(t)));
   return [...s].sort();
 }
@@ -767,7 +769,6 @@ function abrirModalTags(i){
   document.getElementById('tag-cliente-nome').textContent=clientes[i].nome;
   renderTagsModal();
   document.getElementById('modalTags').classList.add('open');
-  // Enter para adicionar
   const inp=document.getElementById('tag-input');
   inp.value='';
   setTimeout(()=>inp.focus(),80);
@@ -784,7 +785,6 @@ function renderTagsModal(){
   if(tagIndex===null) return;
   const tags=clientes[tagIndex].tags||[];
 
-  // ── TAGS ATUAIS ──
   const areaAtual=document.getElementById('tag-lista-atual');
   if(tags.length){
     areaAtual.innerHTML=tags.map(t=>tagHTML(t,`window._g6.removerTag(${tagIndex},'${t.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')`)).join('');
@@ -792,7 +792,6 @@ function renderTagsModal(){
     areaAtual.innerHTML='<span style="font-size:12px;color:var(--muted);">Nenhuma etiqueta ainda.</span>';
   }
 
-  // ── SUGESTÕES (excluindo as já aplicadas) ──
   const todasTags=todasAsTags();
   const disponiveis=todasTags.filter(t=>!tags.includes(t));
   const areaSug=document.getElementById('tag-sugestoes');
@@ -846,23 +845,21 @@ function removerTag(i, tag){
   toast("🗑️ Etiqueta removida");
 }
 
-// Enter no input do modal de tags
-document.addEventListener('DOMContentLoaded', ()=>{
-  document.getElementById('tag-input').addEventListener('keydown', e=>{
-    if(e.key==='Enter'){ e.preventDefault(); adicionarTag(); }
-  });
-});
-// fallback para módulo (DOMContentLoaded pode já ter disparado)
 if(document.readyState!=='loading'){
   document.getElementById('tag-input').addEventListener('keydown', e=>{
     if(e.key==='Enter'){ e.preventDefault(); adicionarTag(); }
+  });
+} else {
+  document.addEventListener('DOMContentLoaded', ()=>{
+    document.getElementById('tag-input').addEventListener('keydown', e=>{
+      if(e.key==='Enter'){ e.preventDefault(); adicionarTag(); }
+    });
   });
 }
 
 /* ── TAG FILTER BAR ── */
 function atualizarTagFilterBar(){
   const bar=document.getElementById('tag-filter-bar');
-  // só mostra tags que realmente existem em algum cliente
   const usadas=new Set();
   clientes.forEach(c=>(c.tags||[]).forEach(t=>usadas.add(t)));
   const todas=[...usadas].sort();
@@ -1320,7 +1317,6 @@ document.getElementById("btn-add-geral").onclick=adicionarCliente;
 document.getElementById("btn-cancel").onclick=fecharModal;
 document.getElementById("btn-confirm").onclick=confirmarExclusao;
 
-// Fechar modais clicando no overlay
 ['modalExcluir','modalHistorico','modalNota','modalTags'].forEach(id=>{
   document.getElementById(id).addEventListener('click', e=>{
     if(e.target.id===id){
